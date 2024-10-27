@@ -1,3 +1,9 @@
+# Statics and medias
+hotel_california/static/
+hotel_california/media/
+24h_code_public/static/
+24h_code_public/media/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
