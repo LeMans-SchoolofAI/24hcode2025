@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Transcription Audio</title>
+</head>
+<body>
+    <h1>Enregistrer et Transcrire l'Audio</h1>
+    <button onclick="startRecording()">Commencer l'enregistrement</button>
+    <button onclick="stopRecording()">Arrêter et Transcrire</button>
+    <p id="transcription"></p>
+
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+
+        async function startRecording() {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            mediaRecorder.start();
+
+            mediaRecorder.addEventListener("dataavailable", event => {
+                audioChunks.push(event.data);
+            });
+        }
+
+        function stopRecording() {
+            mediaRecorder.stop();
+            mediaRecorder.addEventListener("stop", () => {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                const formData = new FormData();
+                formData.set('audio', audioBlob, 'recording.wav');
+
+                fetch('/transcribe/', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("transcription").innerText = data.transcription;
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        }
+    </script>
+</body>
+</html>
