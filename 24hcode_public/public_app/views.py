@@ -3,8 +3,13 @@ from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser
-import whisper
+import whisper, os
 from tempfile import NamedTemporaryFile
+import warnings
+
+# Ignorer les FutureWarnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+warnings.simplefilter(action='ignore', category=UserWarning)
 
 def hello_world(request):
     return HttpResponse("Je suis un agent d'accueil virtuel pour les 24h du code. Je suis une intelligence artificielle développée par Le Mans School of AI.")
@@ -18,6 +23,7 @@ class AudioTranscriptionView(APIView):
 
     def post(self, request, *args, **kwargs):
         audio_file = request.FILES.get('audio')
+        
         if not audio_file:
             return Response({"error": "No audio file provided"}, status=400)
 
@@ -31,6 +37,6 @@ class AudioTranscriptionView(APIView):
 
             # Charger l'audio depuis le fichier temporaire et transcrire
             transcription = model.transcribe(temp_audio_file.name)
-        
+            
         # Renvoyer la transcription
         return Response({"transcription": transcription['text']})

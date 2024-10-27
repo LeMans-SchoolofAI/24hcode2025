@@ -15,6 +15,7 @@
         let audioChunks = [];
 
         async function startRecording() {
+            audioChunks = []; // Reset the audio chunks each record
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             mediaRecorder = new MediaRecorder(stream);
             mediaRecorder.start();
