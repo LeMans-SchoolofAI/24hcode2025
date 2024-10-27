@@ -1,10 +1,9 @@
 # 24hcode2025
-
-
 ## Prérequis
-Python 3.12 ou supérieur (si dev local, sinon juste déploiement, pas besoin)  
-Requirements dans `hotel_california/requirements.txt` ou `24hcode_public/requirements.txt`  
-Docker et dockercompose pour deployer facilement
+* Python 3.12 ou supérieur (si dev local, sinon juste déploiement, pas besoin)  
+* ffmpeg pour whisper pour 24hcode_public (si dev local, sinon juste déploiement, pas besoin)  
+* Requirements dans `hotel_california/requirements.txt` ou `24hcode_public/requirements.txt`  
+* Docker et dockercompose pour deployer facilement
 
 ## Installation
 Allez dans le répertoire souhaité (hotel_california ou 24hcode_public) et exécutez les commandes suivantes :
