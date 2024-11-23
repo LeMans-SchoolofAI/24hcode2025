@@ -1,0 +1,74 @@
+{
+    "restaurant": [
+        {
+            "name": "The Grand Dining Room",
+            "description": "Our signature fine dining restaurant featuring international cuisine",
+            "capacity": 80,
+            "opening_hours": "07:00-23:00",
+            "location": "Main Floor",
+            "is_active": true
+          },
+          {
+            "name": "Poolside Bistro",
+            "description": "Casual dining with Mediterranean flair",
+            "capacity": 40,
+            "opening_hours": "11:00-22:00",
+            "location": "Pool Deck",
+            "is_active": true
+          },
+          {
+            "name": "Sky Lounge",
+            "description": "Rooftop dining with panoramic views",
+            "capacity": 60,
+            "opening_hours": "16:00-23:00",
+            "location": "15th Floor",
+            "is_active": true
+          }
+    ],
+    "mealtype": [
+        {
+        "name": "Breakfast",
+        "start_time": "07:00:00",
+        "end_time": "10:30:00"
+        },
+        {
+        "name": "Lunch",
+        "start_time": "12:00:00",
+        "end_time": "15:00:00"
+        },
+        {
+        "name": "Dinner",
+        "start_time": "18:30:00",
+        "end_time": "22:30:00"
+        }
+    ],
+    "menuitem": [
+        {
+        "name": "Continental Breakfast",
+        "description": "Selection of pastries, fruits, and coffee",
+        "price": "15.99",
+        "is_vegetarian": true,
+        "is_vegan": false,
+        "is_gluten_free": false,
+        "category": "Breakfast"
+        },
+        {
+        "name": "Grilled Salmon",
+        "description": "Fresh Atlantic salmon with seasonal vegetables",
+        "price": "28.99",
+        "is_vegetarian": false,
+        "is_vegan": false,
+        "is_gluten_free": true,
+        "category": "Main Course"
+        },
+        {
+        "name": "Vegan Buddha Bowl",
+        "description": "Quinoa, roasted vegetables, and tahini dressing",
+        "price": "18.99",
+        "is_vegetarian": true,
+        "is_vegan": true,
+        "is_gluten_free": true,
+        "category": "Main Course"
+        }
+    ]
+}

@@ -1,11 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth import logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
+
 from .data import setup_datas, reset_datas
 
-def hello_world(request):
-    return HttpResponse("Welcome to the Hotel California, such a lovely place !")
-
+@login_required
+def home_view(request):
+    return render(request, 'home.html')
 
 
 # Vérifier si l'utilisateur est un superutilisateur

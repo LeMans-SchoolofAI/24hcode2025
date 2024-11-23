@@ -1,12 +1,20 @@
+from django.contrib.auth.hashers import make_password
 from .models import *
 import json
 from django.apps import apps
 
 
 def setup_datas(full=False):
-    # Load data shared between users
     if full:
-        with open("hotel_california_app/global_datas.json") as f:
+        # Load the users
+        with open("hotel_california_app/datas/users.json") as f:
+            datas = json.load(f)
+        for user in datas['CustomUser']:
+            user['password'] = make_password(user['password'])
+            CustomUser.objects.create(**user)
+
+        # Load data shared between users
+        with open("hotel_california_app/datas/global_datas.json") as f:
             datas = json.load(f)
         for key, values in datas.items():
             model_name = key.capitalize()
@@ -17,7 +25,7 @@ def setup_datas(full=False):
     
     # Load per user datas
     for user in CustomUser.objects.filter(is_superuser=False):
-        with open("hotel_california_app/user_datas.json") as f:
+        with open("hotel_california_app/datas/user_datas.json") as f:
             datas = json.load(f)
         # Load clients
         for client in datas['client']:
