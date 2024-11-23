@@ -1,0 +1,36 @@
+{
+    "client": [
+        {
+        "name": "Georges Dupont",
+        "phone_number": "1234567890",
+        "room_number": "101",
+        "special_requests": "None"
+        },
+        {
+        "name": "Marie Marvingt",
+        "phone_number": "9876543210",
+        "room_number": "102",
+        "special_requests": "None"
+        }
+    ],
+    "reservation": [
+        {
+          "client": "Georges Dupont",
+          "restaurant": "The Grand Dining Room",
+          "date": "2025-04-02",
+          "time": "19:00:00",
+          "number_of_guests": 2,
+          "status": "CONFIRMED",
+          "special_requests": "Window table preferred"
+        },
+        {
+          "client": "Marie Marvingt",
+          "restaurant": "Poolside Bistro",
+          "date": "2025-04-01",
+          "time": "12:30:00",
+          "number_of_guests": 4,
+          "status": "PENDING",
+          "special_requests": "Birthday celebration"
+        }
+      ]
+}
