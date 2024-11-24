@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from hotel_california_app.models import Restaurant, Client, Reservation
+from hotel_california_app.models import Restaurant, Client, Reservation, MealType
 
 class RestaurantSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,9 +12,19 @@ class ClientSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'phone_number', 'room_number', 'special_requests']
 
 class ReservationSerializer(serializers.ModelSerializer):
-    client = serializers.PrimaryKeyRelatedField(
-        queryset=Client.objects.none()
+    meal = serializers.SlugRelatedField(
+        queryset=MealType.objects.all(),
+        slug_field='name'    # Utilise le champ 'name' pour la création/mise à jour
     )
+    restaurant = serializers.SlugRelatedField(
+        queryset=Restaurant.objects.all(),
+        slug_field='name'
+    )
+    client_name = serializers.CharField(source='client.name', read_only=True)
+    
+    client = serializers.PrimaryKeyRelatedField(queryset=Client.objects.none())
+    meal = serializers.PrimaryKeyRelatedField(queryset=MealType.objects.all())
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         user = self.context['request'].user
@@ -22,8 +32,8 @@ class ReservationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reservation
-        fields = ['id', 'client', 'restaurant', 'date', 'meal', 
-                 'number_of_guests', 'special_requests']
+        fields = ['id', 'client', 'client_name', 'restaurant', 'date',
+                  'meal', 'number_of_guests', 'special_requests']
     
     def validate_client(self, value):
         """
@@ -33,6 +43,13 @@ class ReservationSerializer(serializers.ModelSerializer):
         if value.user != request.user:
             raise serializers.ValidationError(
                 "You can only make reservations for your own clients"
+            )
+        return value
+    
+    def validate_restaurant(self, value):
+        if not Restaurant.objects.filter(name=value, is_active=True).exists():
+            raise serializers.ValidationError(
+                "Ce restaurant n'existe pas ou n'est pas actif"
             )
         return value
     
