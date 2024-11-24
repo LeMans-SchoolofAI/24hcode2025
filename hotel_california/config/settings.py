@@ -51,6 +51,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    'hotel_california_app.middleware.APIKeyAuthMiddleware',
 ]
 
 AUTH_USER_MODEL = 'hotel_california_app.CustomUser'
