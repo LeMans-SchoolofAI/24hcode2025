@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'hotel_california_app',
     
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -51,11 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
-    'hotel_california_app.middleware.APIKeyAuthMiddleware',
 ]
-
-AUTH_USER_MODEL = 'hotel_california_app.CustomUser'
 
 ROOT_URLCONF = 'config.urls'
 
@@ -83,7 +80,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
+#        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend',
@@ -105,8 +103,6 @@ DATABASES = {
 DJANGO_SUPERUSER_USERNAME=os.getenv("DJANGO_SUPERUSER_USERNAME")
 DJANGO_SUPERUSER_PASSWORD=os.getenv("DJANGO_SUPERUSER_PASSWORD")
 DJANGO_SUPERUSER_EMAIL=os.getenv("DJANGO_SUPERUSER_EMAIL")
-DJANGO_SUPERUSER_API_KEY=os.getenv("DJANGO_SUPERUSER_API_KEY")
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -152,3 +148,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000']

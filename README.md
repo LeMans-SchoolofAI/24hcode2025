@@ -15,6 +15,8 @@ Par docker :
 Par python en local avec Django :
 - Allez dans le répertoire souhaité (hotel_california ou 24hcode_public) et exécuter `python manage.py runserver`
 
+Attention : pour le premier lancement il faut obligatoirement commencer par docker car les variables d'environnement pour la création du superuser par défaut sont dans le docker-compose.yml (sinon il faut les mettre en variable d'environnement du terminal avant de lancer `python manage.py runserver`)
+
 ## Hotel California
 Système de gestion de l'hotel California pour les participants du sujet.
 
