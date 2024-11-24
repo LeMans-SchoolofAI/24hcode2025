@@ -46,7 +46,7 @@ def setup_datas(full=False):
     return True
         
     
-    
+# Reset all the datas    
 def reset_datas(full=False):
     if full:
         # Delete the shared datas
@@ -62,5 +62,13 @@ def reset_datas(full=False):
         print("All users deleted")
         
     setup_datas(full=full)
+    return True
+
+
+# Reset the datas for a specific user
+def reset_user_datas(user):
+    # Delete the datas
+    Client.objects.filter(user=user).delete()
+    Reservation.objects.filter(user=user).delete()
     return True
     

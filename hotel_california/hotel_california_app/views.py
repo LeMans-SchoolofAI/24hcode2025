@@ -5,7 +5,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 
-from .data import setup_datas, reset_datas
+from .data import setup_datas, reset_datas, reset_user_datas
 
 @login_required
 def home_view(request):
@@ -27,6 +27,14 @@ def setup_view(request):
 def reset_view(request):
     if not is_superuser(request.user):
         raise PermissionDenied
-    reset_datas(full=True)
-    return HttpResponse("App is reset !")
+    if request.method == 'POST':
+        reset_datas(full=True)
+        return render(request, 'home.html', context = {"messages" : ["Datas reset"]})
+    return render(request, 'admin_reset.html')
+
+# Réinitialise la configuration pour un utilisateur
+def reset_user_view(request):
+    reset_user_datas(request.user)
+    return render(request, 'home.html', context = {"messages" : ["User datas reset"]})
+    
 

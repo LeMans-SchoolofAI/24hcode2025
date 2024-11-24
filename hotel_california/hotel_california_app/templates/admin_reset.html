@@ -1,0 +1,7 @@
+<form method="post">
+    {% csrf_token %}
+    <p>Attention !</p>
+    <p>Es-tu sûr de vouloir réinitialiser toutes les données de l'application ?</p>
+    <button type="submit">Oui</button>
+    <button><a href="{% url 'hotel_california_app:home' %}" style="text-decoration: none; color: inherit;">Annuler</a></button>
+</form>

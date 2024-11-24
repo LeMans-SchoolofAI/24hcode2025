@@ -2,8 +2,25 @@
 
 <h2>Welcome, {{ request.user.username }}!</h2>
 
+{% if request.user.is_staff %}
+    <h2>Admin tools (not showsed for users)</h2>
+    <a href="/admin/">Admin</a>
+    <br>
+    <a href="{% url 'hotel_california_app:reset_view' %}">Reset all datas in app</a>
+    <br>
+{% endif %}
+
+{% comment %} Block message {% endcomment %}
+{% if messages %}
+    <h2>Messages</h2>
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+
 <h2>Access the tools</h2>
-<a href="{% url 'hotel_california_app:reset_view' %}">Reset my data (not working yet, work in progress)</a>
+<a href="{% url 'hotel_california_app:reset_user_view' %}">Reset my datas</a>
 <br>
 <br>
 
