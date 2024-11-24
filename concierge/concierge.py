@@ -34,6 +34,9 @@ else:
 # Define the tools
 search_tool = DuckDuckGoSearchRun()
 
+def get_headers():
+    return {"Authorization": f"Token {HOTEL_API_TOKEN}"}
+
 @tool
 def list_restaurants() -> [str]:
     """Retourne la liste des restaurants de l'hotel avec les informations suivantes :
@@ -46,8 +49,7 @@ def list_restaurants() -> [str]:
        """
     # Access the API to get the list of hotels
     url = f"{HOTEL_API_URL}/restaurants"
-    headers = {"Authorization": f"{HOTEL_API_TOKEN}"}
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=get_headers())
     data = response.json()
     # Return the list of hotels
     return (data)
@@ -63,8 +65,7 @@ def list_clients() -> [str]:
        """
     # Access the API to get the list of hotels
     url = f"{HOTEL_API_URL}/clients"
-    headers = {"Authorization": f"{HOTEL_API_TOKEN}"}
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=get_headers())
     data = response.json()
     # Return the list of clients
     return (data)
@@ -77,8 +78,7 @@ def list_meals() -> [str]:
        """
     # Access the API to get the list of hotels
     url = f"{HOTEL_API_URL}/meals"
-    headers = {"Authorization": f"{HOTEL_API_TOKEN}"}
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=get_headers())
     data = response.json()
     # Return the list of meals
     return (data)
@@ -97,8 +97,7 @@ def list_reservations() -> [str]:
        """
     # Access the API to get the list of hotels
     url = f"{HOTEL_API_URL}/reservations"
-    headers = {"Authorization": f"{HOTEL_API_TOKEN}"}
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=get_headers())
     data = response.json()
     # Return the list of hotels
     return (data)
@@ -119,11 +118,9 @@ def make_reservation(client: str, restaurant: str, date: str, meal: str, number_
        """
     # Access the API to get the list of hotels
     url = f"{HOTEL_API_URL}/reservations/"
-    headers = {"Authorization": f"{HOTEL_API_TOKEN}"}
-    response = requests.post(url, headers=headers, json={"client": client, "restaurant": restaurant,
+    response = requests.post(url, headers=get_headers(), json={"client": client, "restaurant": restaurant,
                              "date": date, "meal": meal, "number_of_guests": number_of_guests, "special_requests": special_requests})
     data = response.json()
-    print("-----\n", response, "\n-----\n")
     # Return the result of the API call
     return (data)
 
