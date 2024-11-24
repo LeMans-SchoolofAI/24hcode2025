@@ -40,6 +40,7 @@ Créer un fichier `.env` dans le répertoire `concierge` et y ajouter les variab
     * `LANG_FUSE_SECRET_KEY` : secret key de Langfuse (optionnel si utilisation de Langfuse)
     * `LANG_FUSE_PUBLIC_KEY` : public kety de l'instance de Langfuse utilisée (optionnel si utilisation de Langfuse)
     * `LANG_FUSE_HOST` : URL de l'instance de Langfuse utilisée (optionnel si utilisation de Langfuse)
+    * `MISTRAL_API_KEY` : clef d'API pour Mistral
 
 
 ### Usage
