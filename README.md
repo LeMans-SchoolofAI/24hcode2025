@@ -18,6 +18,9 @@ Par python en local avec Django :
 ## Hotel California
 Système de gestion de l'hotel California pour les participants du sujet.
 
+### Authentification
+Exemple d'usage en curl : `curl -H "Authorization: <APIKEY>" http://<HOST>/api/`
+
 ### Usage
 - `localhost:8000` pour accéder à l'interface web
 - `localhost:8000/admin` pour accéder à l'interface d'administration
