@@ -1,7 +1,7 @@
 from rest_framework import generics, permissions
 from django_filters import rest_framework as filters
-from .serializers import RestaurantSerializer, ClientSerializer, ReservationSerializer
-from hotel_california_app.models import Restaurant, Client, Reservation
+from .serializers import RestaurantSerializer, ClientSerializer, ReservationSerializer, MealTypeSerializer
+from hotel_california_app.models import Restaurant, Client, Reservation, MealType
 
 class RestaurantListAPIView(generics.ListAPIView):
     # Only a authenticated user can see the restaurants
