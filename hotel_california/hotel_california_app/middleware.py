@@ -12,6 +12,7 @@ class APIKeyAuthMiddleware(MiddlewareMixin):
             except CustomUser.DoesNotExist:
                 return JsonResponse({'error': 'Invalid API Key'}, status=401)
         else:
-            return JsonResponse({'error': 'API Key required'}, status=401)
+            #return JsonResponse({'error': 'API Key required'}, status=401) # Laisser les autres méthodes d'authentification gérer l'absence de clé
+            pass
         
         
