@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import RestaurantListAPIView, ClientListAPIView, SpaListAPI
+from .views import RestaurantListAPIView, ClientListAPIView, MealTypeListAPIView, ReservationListCreateView, ReservationDetailView, SpaListAPI
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -11,11 +11,13 @@ class APIRootView(APIView):
         return Response({
             'restaurants': reverse('api:restaurant-list', request=request),
             'clients': reverse('api:client-list', request=request),
+            'meals': reverse('api:meal-list', request=request),
+            'reservations': reverse('api:reservation-list', request=request),
+            'reservation-detail': reverse('api:reservation-detail', request=request, kwargs={'pk': 1}),
         })
 
 urlpatterns = [
     path('', APIRootView.as_view(), name='api-root'),
     path('restaurants/', RestaurantListAPIView.as_view(), name='restaurant-list'),
     path('clients/', ClientListAPIView.as_view(), name='client-list'),
-    path('spas/', SpaListAPI.as_view(), name='spa-list'),
 ]
