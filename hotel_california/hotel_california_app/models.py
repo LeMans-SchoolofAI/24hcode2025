@@ -77,22 +77,13 @@ class Client(models.Model):
         return f"{self.name} (for {self.user})"
 
 class Reservation(models.Model):
-    STATUS_CHOICES = [
-        ('PENDING', 'Pending'),
-        ('CONFIRMED', 'Confirmed'),
-        ('CANCELLED', 'Cancelled'),
-        ('COMPLETED', 'Completed'),
-    ]
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='reservations')
     client = models.ForeignKey(Client, on_delete=models.CASCADE, db_column='client_id', related_name='reservations')
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     date = models.DateField()
-    time = models.TimeField()
+    meal = models.ForeignKey(MealType, on_delete=models.CASCADE)
     number_of_guests = models.IntegerField()
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
     special_requests = models.TextField(blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.client} - {self.restaurant} - {self.date} {self.time}"
+        return f"{self.client} - {self.restaurant} - {self.date} {self.meal}"

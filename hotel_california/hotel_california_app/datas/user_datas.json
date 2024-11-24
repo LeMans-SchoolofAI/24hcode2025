@@ -18,18 +18,16 @@
           "client": "Georges Dupont",
           "restaurant": "The Grand Dining Room",
           "date": "2025-04-02",
-          "time": "19:00:00",
+          "meal": "Lunch",
           "number_of_guests": 2,
-          "status": "CONFIRMED",
           "special_requests": "Window table preferred"
         },
         {
           "client": "Marie Marvingt",
           "restaurant": "Poolside Bistro",
           "date": "2025-04-01",
-          "time": "12:30:00",
+          "meal": "Dinner",
           "number_of_guests": 4,
-          "status": "PENDING",
           "special_requests": "Birthday celebration"
         }
       ]

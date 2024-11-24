@@ -41,6 +41,8 @@ def setup_datas(full=False):
             reservation['client'] = Client.objects.get(name=reservation['client'], user=user)
             # Get the id of the restaurant from the name
             reservation['restaurant'] = Restaurant.objects.get(name=reservation['restaurant'])
+            # Get the id of the meal from the name
+            reservation['meal'] = MealType.objects.get(name=reservation['meal'])
             Reservation.objects.create(**reservation)
 
     return True
