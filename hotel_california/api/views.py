@@ -1,4 +1,5 @@
 from rest_framework import generics, permissions
+from django_filters import rest_framework as filters
 from .serializers import RestaurantSerializer, ClientSerializer, ReservationSerializer
 from hotel_california_app.models import Restaurant, Client, Reservation
 
@@ -17,9 +18,18 @@ class ClientListAPIView(generics.ListAPIView):
     def get_queryset(self):
         return Client.objects.filter(user=self.request.user)
 
+class ReservationFilter(filters.FilterSet):
+    date_from = filters.DateFilter(field_name='date', lookup_expr='gte')
+    date_to = filters.DateFilter(field_name='date', lookup_expr='lte')
+
+    class Meta:
+        model = Reservation
+        fields = ['restaurant', 'meal', 'date_from', 'date_to']
+
 class ReservationListCreateView(generics.ListCreateAPIView):
     serializer_class = ReservationSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filterset_class = ReservationFilter
 
     def get_queryset(self):
         """Return reservations for the current user"""

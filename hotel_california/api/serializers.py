@@ -12,11 +12,30 @@ class ClientSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'phone_number', 'room_number', 'special_requests']
 
 class ReservationSerializer(serializers.ModelSerializer):
+    client = serializers.PrimaryKeyRelatedField(
+        queryset=Client.objects.none()
+    )
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        user = self.context['request'].user
+        self.fields['client'].queryset = Client.objects.filter(user=user)
+
     class Meta:
         model = Reservation
         fields = ['id', 'client', 'restaurant', 'date', 'meal', 
                  'number_of_guests', 'special_requests']
-        
+    
+    def validate_client(self, value):
+        """
+        Check that the client belongs to the current user
+        """
+        request = self.context.get('request')
+        if value.user != request.user:
+            raise serializers.ValidationError(
+                "You can only make reservations for your own clients"
+            )
+        return value
+    
     def validate(self, data):
         # Add custom validation here
         if data['number_of_guests'] <= 0:
