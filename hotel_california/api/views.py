@@ -1,6 +1,6 @@
 from rest_framework import generics, permissions
-from .serializers import RestaurantSerializer, ClientSerializer
-from hotel_california_app.models import Restaurant, Client
+from .serializers import RestaurantSerializer, ClientSerializer, ReservationSerializer
+from hotel_california_app.models import Restaurant, Client, Reservation
 
 class RestaurantListAPIView(generics.ListAPIView):
     # Only a authenticated user can see the restaurants
@@ -17,3 +17,22 @@ class ClientListAPIView(generics.ListAPIView):
     def get_queryset(self):
         return Client.objects.filter(user=self.request.user)
 
+class ReservationListCreateView(generics.ListCreateAPIView):
+    serializer_class = ReservationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        """Return reservations for the current user"""
+        return Reservation.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        """Save the reservation with the current user"""
+        serializer.save(user=self.request.user)
+
+class ReservationDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = ReservationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        """Ensure users can only access their own reservations"""
+        return Reservation.objects.filter(user=self.request.user)
