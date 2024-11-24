@@ -2,6 +2,7 @@ import os
 
 # Load the langchain tools
 from langchain_openai import ChatOpenAI
+from langchain_ollama import ChatOllama
 from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_core.messages import HumanMessage, SystemMessage
 from langgraph.checkpoint.memory import MemorySaver
@@ -12,7 +13,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Initialize Langfuse handler
-DEBUG_LANGUSE = False
+DEBUG_LANGUSE = True
 if DEBUG_LANGUSE:
     from langfuse.callback import CallbackHandler
     langfuse_handler = CallbackHandler(
@@ -21,10 +22,13 @@ if DEBUG_LANGUSE:
         host=os.getenv("LANG_FUSE_HOST")
     )
     langfuse_handler.auth_check()
-
+    config = {"callbacks": [langfuse_handler]}
+else:
+    config = {}
 # Create the agent
 memory = MemorySaver()
-llm = ChatOpenAI(base_url=os.getenv("LLM_API_URL"), openai_api_key=os.getenv("LLM_API_KEY"))
+#llm = ChatOpenAI(base_url=os.getenv("LLM_API_URL"), openai_api_key=os.getenv("LLM_API_KEY"))
+llm = ChatOllama(model="hf.co/nguyenthanhthuan/Llama_3.2_1B_Intruct_Tool_Calling_V2:latest")
 
 print("llm created")
 
@@ -50,9 +54,9 @@ llm_with_tools = llm.bind_tools(tools)
 # Execute query and parser result (Different from the first version)
 from langchain_core.output_parsers.openai_tools import PydanticToolsParser
 
-query = "What is 3 * 12? Also, what is 11 + 49?"
+query = "To answer the question you should use a tool : what is 3 x 12 ?"
 chain = llm_with_tools | PydanticToolsParser(tools=tools)
-result = chain.invoke(query)
+result = chain.invoke(query, config=config)
 print(result)
 
 # Output:
