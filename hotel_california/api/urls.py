@@ -21,4 +21,5 @@ urlpatterns = [
     path('clients/', ClientListAPIView.as_view(), name='client-list'),
     path('reservations/', ReservationListCreateView.as_view(), name='reservation-list'),
     path('reservations/<int:pk>/', ReservationDetailView.as_view(), name='reservation-detail'),
+    path('meals/', APIView.as_view(), name='meal-list'),
 ]

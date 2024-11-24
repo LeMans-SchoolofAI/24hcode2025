@@ -11,6 +11,11 @@ class ClientSerializer(serializers.ModelSerializer):
         model = Client
         fields = ['id', 'name', 'phone_number', 'room_number', 'special_requests']
 
+class MealTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MealType
+        fields = ['id', 'name']
+
 class ReservationSerializer(serializers.ModelSerializer):
     meal = serializers.SlugRelatedField(
         queryset=MealType.objects.all(),
@@ -23,7 +28,6 @@ class ReservationSerializer(serializers.ModelSerializer):
     client_name = serializers.CharField(source='client.name', read_only=True)
     
     client = serializers.PrimaryKeyRelatedField(queryset=Client.objects.none())
-    meal = serializers.PrimaryKeyRelatedField(queryset=MealType.objects.all())
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

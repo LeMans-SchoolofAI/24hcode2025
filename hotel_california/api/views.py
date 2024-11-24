@@ -18,6 +18,10 @@ class ClientListAPIView(generics.ListAPIView):
     def get_queryset(self):
         return Client.objects.filter(user=self.request.user)
 
+class MealTypeListAPIView(generics.ListAPIView):
+    queryset = MealType.objects.all()
+    serializer_class = MealTypeSerializer
+
 class ReservationFilter(filters.FilterSet):
     date_from = filters.DateFilter(field_name='date', lookup_expr='gte')
     date_to = filters.DateFilter(field_name='date', lookup_expr='lte')
