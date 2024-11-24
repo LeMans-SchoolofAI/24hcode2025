@@ -3,7 +3,7 @@
 <h2>Welcome, {{ request.user.username }}!</h2>
 
 {% if request.user.is_staff %}
-    <h2>Admin tools (not showsed for users)</h2>
+    <h2>Admin tools (not shown to users)</h2>
     <a href="/admin/">Admin</a>
     <br>
     <a href="{% url 'hotel_california_app:reset_view' %}">Reset all datas in app</a>
@@ -18,7 +18,6 @@
     {% endfor %}
 {% endif %}
 
-
 <h2>Access the tools</h2>
 <a href="{% url 'hotel_california_app:reset_user_view' %}">Reset my datas</a>
 <br>
@@ -28,6 +27,13 @@
 <a href="{% url 'api:client-list' %}">Client List</a>
 <br>
 <a href="{% url 'api:restaurant-list' %}">Restaurant List</a>
+<br>
+<a href="{% url 'api:spa-list' %}">Spa List</a> <!-- Lien vers l'API des spas -->
+<br>
+<br>
+
+<h2>Nos catalogues</h2>
+<a href="{% url 'hotel_california_app:list_spas' %}">Liste des Spas</a> <!-- Lien vers la page des spas -->
 <br>
 <br>
 
