@@ -60,3 +60,9 @@ class ReservationDetailView(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         """Ensure users can only access their own reservations"""
         return Reservation.objects.filter(user=self.request.user)
+
+class SpaListAPI(APIView):
+    def get(self, request):
+        spas = Spa.objects.all()
+        serializer = SpaSerializer(spas, many=True)
+        return Response(serializer.data)

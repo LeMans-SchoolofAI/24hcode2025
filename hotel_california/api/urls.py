@@ -20,4 +20,8 @@ urlpatterns = [
     path('', APIRootView.as_view(), name='api-root'),
     path('restaurants/', RestaurantListAPIView.as_view(), name='restaurant-list'),
     path('clients/', ClientListAPIView.as_view(), name='client-list'),
+    path('meals/', MealTypeListAPIView.as_view(), name='meal-list'),
+    path('reservations/', ReservationListCreateView.as_view(), name='reservation-list'),
+    path('reservations/<int:pk>/', ReservationDetailView.as_view(), name='reservation-detail'),
+    path('spas/', SpaListAPI.as_view(), name='spa-list'),
 ]

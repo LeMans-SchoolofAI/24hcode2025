@@ -16,6 +16,11 @@ class MealTypeSerializer(serializers.ModelSerializer):
         model = MealType
         fields = ['id', 'name']
 
+class SpaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Spa
+        fields = '__all__'
+
 class ReservationSerializer(serializers.ModelSerializer):
     date = serializers.DateField(
         format="%Y-%m-%d",
