@@ -17,6 +17,11 @@ load_dotenv()
 HOTEL_API_URL = os.getenv("HOTEL_API_URL")
 HOTEL_API_TOKEN = os.getenv("HOTEL_API_TOKEN")
 
+# Définition des couleurs
+RED = "\033[31m"
+GREEN = "\033[32m"
+RESET = "\033[0m"
+
 # Initialize Langfuse handler
 DEBUG_LANGUSE = True
 if DEBUG_LANGUSE:
@@ -160,16 +165,16 @@ system_message = SystemMessage(content=
 result = agent.invoke({ "messages": [system_message] }, config=config)
 
 # Ask the user what he wants
-question = input("Comment puis-je vous aider ? ")
+question = input(f"{RED}Bienvenue dans l'hôtel California ! Je suis votre concierge virtuel. Comment puis-je vous aider ?\n{GREEN}")
 while question != "":
     result = agent.invoke({ "messages": [HumanMessage(content=question)] }, config=config)
     # Get the last message in the list
     last_message = result['messages'][-1]
     # Print the result from the AI Agent
-    print(last_message.content)
+    print(f"{RED}" + last_message.content)
 
     # Ask the user what he wants
-    question = input("")
+    question = input(f"{GREEN}")
 
 # Say goodbye
-print("Goodbye")
+print(f"{RED}Merci d'avoir utilisé le concierge virtuel de l'hôtel California !{RESET}")
