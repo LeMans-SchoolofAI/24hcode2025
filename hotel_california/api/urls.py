@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import RestaurantListAPIView, ClientListAPIView
+from .views import RestaurantListAPIView, ClientListAPIView, SpaListAPI
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -17,4 +17,5 @@ urlpatterns = [
     path('', APIRootView.as_view(), name='api-root'),
     path('restaurants/', RestaurantListAPIView.as_view(), name='restaurant-list'),
     path('clients/', ClientListAPIView.as_view(), name='client-list'),
+    path('spas/', SpaListAPI.as_view(), name='spa_list_api'),
 ]

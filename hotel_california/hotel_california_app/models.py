@@ -87,3 +87,15 @@ class Reservation(models.Model):
 
     def __str__(self):
         return f"{self.client} - {self.restaurant} - {self.date} {self.meal}"
+class Spa(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    location = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=15)
+    email = models.EmailField()
+    opening_hours = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
