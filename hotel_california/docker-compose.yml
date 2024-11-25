@@ -8,9 +8,5 @@ services:
       - ./media/:/media/
     ports:
       - "8000:8000"
-    environment:
-      - DEBUG=1
-      - DJANGO_SUPERUSER_USERNAME=admin24h
-      - DJANGO_SUPERUSER_EMAIL=notreal@les24hducode.fr
-      - DJANGO_SUPERUSER_PASSWORD=WelcomeToTheHotelCalifornIA
-      - DJANGO_SUPERUSER_API_KEY=SuperUserAPI24h
+    env_file:
+      - .env

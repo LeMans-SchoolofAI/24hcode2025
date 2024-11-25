@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirection</title>
+</head>
+<body>
+    <form id="redirectForm" method="post" action="{% url 'index' %}">
+        {% csrf_token %}
+        <input type="hidden" name="conversation_id" value="{{ conversation_id }}">
+        <input type="hidden" name="user_inputs" value="{{ user_inputs }}">
+        <input type="hidden" name="ai_responses" value="{{ ai_responses }}">
+        <input type="hidden" name="indices" value="{{ indices }}">
+    </form>
+    <script type="text/javascript">
+        document.getElementById('redirectForm').submit();
+    </script>
+</body>
+</html>

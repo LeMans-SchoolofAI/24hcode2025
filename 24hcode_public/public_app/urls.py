@@ -4,5 +4,6 @@ from .views import *
 urlpatterns = [
     # path('', hello_world, name='hello_world'),
     path('', index, name='index'),
-    path('transcribe/', AudioTranscriptionView.as_view(), name='audio-transcription'),
+    path('transcribe/', audio_transcription_view, name='audio-transcription'),
+    path('new_conversation/', start_new_conversation, name='new_conversation'),
 ]

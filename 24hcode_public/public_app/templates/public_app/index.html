@@ -5,10 +5,44 @@
     <title>Transcription Audio</title>
 </head>
 <body>
-    <h1>Enregistrer et Transcrire l'Audio</h1>
-    <button onclick="startRecording()">Commencer l'enregistrement</button>
-    <button onclick="stopRecording()">Arrêter et Transcrire</button>
-    <p id="transcription"></p>
+    <button><a href="/new_conversation/">Commencer une nouvelle conversation</a></button>
+    {% if conversation_id %}
+        <h1>Conversation {{ conversation_id }}</h1>
+
+        {% comment %} Afficher la liste des input et output {% endcomment %}
+        {% load get_by_index %}
+        <div id="chat">
+            {% for i in indices %}
+                {% if i < ai_responses|length %}
+                    <div class="ai-response">
+                        <strong>AI :</strong> {{ ai_responses|get_by_index:i }}
+                    </div>
+                {% endif %}
+                {% if i < user_inputs|length %}
+                <div class="user-message">
+                    <strong>Utilisateur :</strong> {{ user_inputs|get_by_index:i }}
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <h2>Enregistrer et Transcrire l'Audio</h2>
+        <form id="transcribeForm" method="post" action="/transcribe/" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="conversation_id" value="{{ conversation_id }}">
+            <input type="file" name="audio" id="audioInput" style="display: none;">
+            <button type="button" onclick="startRecording()">Start Recording</button>
+            <button type="button" onclick="stopRecording()">Stop Recording</button>
+        </form>
+        {% comment %} <button onclick="startRecording()">Commencer l'enregistrement</button>
+        <button onclick="stopRecording()">Arrêter et Transcrire</button> {% endcomment %}
+    {% comment %} <form id="transcription-form" method="post" enctype="multipart/form-data" action="{% url 'audio-transcription' %}">
+        {% csrf_token %}
+        <input type="file" name="audio" accept="audio/*" required>
+        <input type="hidden" name="conversation_id" value="{{ conversation_id }}">
+        <button type="submit">Transcrire</button>
+    </form> {% endcomment %}
+    {% endif %}
 
     <script>
         let mediaRecorder;
@@ -29,18 +63,20 @@
             mediaRecorder.stop();
             mediaRecorder.addEventListener("stop", () => {
                 const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                const formData = new FormData();
-                formData.set('audio', audioBlob, 'recording.wav');
+                const audioFile = new File([audioBlob], 'recording.wav', { type: 'audio/wav' });
 
-                fetch('/transcribe/', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("transcription").innerText = data.transcription;
-                })
-                .catch(error => console.error('Error:', error));
+                const audioInput = document.getElementById('audioInput');
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(audioFile);
+                audioInput.files = dataTransfer.files;
+                //const formData = new FormData();
+                //formData.set('audio', audioBlob, 'recording.wav');
+                //formData.set('conversation_id', {{ conversation_id }});
+
+                //const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                //formData.set('csrfmiddlewaretoken', csrfToken);
+
+                document.getElementById('transcribeForm').submit();
             });
         }
     </script>
