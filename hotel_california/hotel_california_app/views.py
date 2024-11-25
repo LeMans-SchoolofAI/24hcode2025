@@ -38,3 +38,10 @@ def reset_user_view(request):
     return render(request, 'home.html', context = {"messages" : ["User datas reset"]})
     
 
+from django.shortcuts import render
+from .models import Spa
+
+def list_spas(request):
+    """Vue pour afficher une liste de spas."""
+    spas = Spa.objects.all()
+    return render(request, 'spa_list.html', {'spas': spas})

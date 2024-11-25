@@ -11,4 +11,5 @@ urlpatterns = [
     path('setup/', views.setup_view, name='setup_view'),
     path('admin-reset/', views.reset_view, name='reset_view'),
     path('reset/', views.reset_user_view, name='reset_user_view'),
+    path('spas/', views.list_spas, name='list_spas'),
 ]

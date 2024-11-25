@@ -1,10 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-
-class CustomUser(AbstractUser):
-    apikey = models.CharField(max_length=100, unique=True, blank=True)
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
+from django.contrib.auth.models import User
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=100)
@@ -65,7 +60,7 @@ class DailyMenuItem(models.Model):
     is_special = models.BooleanField(default=False)
 
 class Client(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='clients')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='clients')
     name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=20)
     room_number = models.CharField(max_length=10, null=True, blank=True)
@@ -77,7 +72,7 @@ class Client(models.Model):
         return f"{self.name} (for {self.user})"
 
 class Reservation(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='reservations')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reservations')
     client = models.ForeignKey(Client, on_delete=models.CASCADE, db_column='client_id', related_name='reservations')
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     date = models.DateField()
@@ -87,3 +82,15 @@ class Reservation(models.Model):
 
     def __str__(self):
         return f"{self.client} - {self.restaurant} - {self.date} {self.meal}"
+class Spa(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    location = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=15)
+    email = models.EmailField()
+    opening_hours = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name

@@ -1,17 +1,19 @@
 from django.contrib.auth.hashers import make_password
+from rest_framework.authtoken.models import Token
 from .models import *
 import json
 from django.apps import apps
 
 
-def setup_datas(full=False):
+def setup_datas(full=False, specific_user=None):
     if full:
         # Load the users
         with open("hotel_california_app/datas/users.json") as f:
             datas = json.load(f)
-        for user in datas['CustomUser']:
+        for user in datas['User']:
             user['password'] = make_password(user['password'])
-            CustomUser.objects.create(**user)
+            User.objects.create(username=user['username'], password=user['password'], email=user['email'])
+            Token.objects.create(user=User.objects.get(username=user['username']), key=user['apikey'])
 
         # Load data shared between users
         with open("hotel_california_app/datas/global_datas.json") as f:
@@ -24,7 +26,11 @@ def setup_datas(full=False):
                 model.objects.create(**value)
     
     # Load per user datas
-    for user in CustomUser.objects.filter(is_superuser=False):
+    if specific_user is None:
+        users = User.objects.filter(is_superuser=False)
+    else:
+        users = [specific_user]
+    for user in users:
         with open("hotel_california_app/datas/user_datas.json") as f:
             datas = json.load(f)
         # Load clients
@@ -59,7 +65,7 @@ def reset_datas(full=False):
         print("Shared datas deleted")
 
         # Get all users except the superuser
-        users = CustomUser.objects.filter(is_superuser=False)
+        users = User.objects.filter(is_superuser=False)
         users.delete()
         print("All users deleted")
         
@@ -72,5 +78,6 @@ def reset_user_datas(user):
     # Delete the datas
     Client.objects.filter(user=user).delete()
     Reservation.objects.filter(user=user).delete()
+    setup_datas(full=False, user=user)
     return True
     
