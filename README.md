@@ -21,7 +21,7 @@ Attention : pour le premier lancement il faut obligatoirement commencer par dock
 Système de gestion de l'hotel California pour les participants du sujet.
 
 ### Authentification
-Exemple d'usage en curl : `curl -H "Authorization: <APIKEY>" http://<HOST>/api/`
+Exemple d'usage en curl : `curl -H "Authorization: Token <APIKEY>" http://<HOST>/api/`
 
 ### Usage
 - `localhost:8000` pour accéder à l'interface web
