@@ -38,16 +38,16 @@ Prototype de concierge virtuel pouvant accéder aux API de l'hôtel California
 
 ### Installation
 Créer un fichier `.env` dans le répertoire `concierge` et y ajouter les variables d'environnement suivantes :
-    * `LLM_API_URL` : URL de l'API du fournisseur de LLM
-    * `LLM_API_KEY` : clef d'API de l'utilisateur pour le LLM (vide si utilisation ollama ou LMStudio)
-    * `API_USERNAME` : nom d'utilisateur de l'API de l'hôtel California
-    * `API_TOKEN` : clef d'API de l'utilisateur de l'API de l'hôtel California
-    * `LANG_FUSE_SECRET_KEY` : secret key de Langfuse (optionnel si utilisation de Langfuse)
-    * `LANG_FUSE_PUBLIC_KEY` : public kety de l'instance de Langfuse utilisée (optionnel si utilisation de Langfuse)
-    * `LANG_FUSE_HOST` : URL de l'instance de Langfuse utilisée (optionnel si utilisation de Langfuse)
-    * `MISTRAL_API_KEY` : clef d'API pour Mistral
-    * `HOTEL_API_URL`: URL de l'API de l'hôtel California, par exemple `HOTEL_API_URL='http://localhost:8000/api'
-    * `HOTEL_API_TOKEN`: token de l'utilisateur de l'API de l'hôtel California
+- `LLM_API_URL` : URL de l'API du fournisseur de LLM
+- `LLM_API_KEY` : clef d'API de l'utilisateur pour le LLM (vide si utilisation ollama ou LMStudio)
+- `API_USERNAME` : nom d'utilisateur de l'API de l'hôtel California
+- `API_TOKEN` : clef d'API de l'utilisateur de l'API de l'hôtel California
+- `LANG_FUSE_SECRET_KEY` : secret key de Langfuse (optionnel si utilisation de Langfuse)
+- `LANG_FUSE_PUBLIC_KEY` : public kety de l'instance de Langfuse utilisée (optionnel si utilisation de Langfuse)
+- `LANG_FUSE_HOST` : URL de l'instance de Langfuse utilisée (optionnel si utilisation de Langfuse)
+- `MISTRAL_API_KEY` : clef d'API pour Mistral
+- `HOTEL_API_URL`: URL de l'API de l'hôtel California, par exemple `HOTEL_API_URL='http://localhost:8000/api'
+- `HOTEL_API_TOKEN`: token de l'utilisateur de l'API de l'hôtel California
 
 ### Usage
 - `python concierge.py` pour lancer l'application
@@ -57,6 +57,7 @@ Créer un fichier `.env` dans le répertoire `concierge` et y ajouter les variab
 ### Langfuse
 
 [Langfuse](https://langfuse.com) est un concurrent opensource de langsmith qui est utilisé pour surveiller le comportement de l'agent, son utilisation est optionnelle. Il est possible de l'utiliser en mode cloud (potentiellement payant) ou de le lancer en local avec docker.
+
 A noter : en développement l'execution avec Docker est le plus simple mais l'instance ne garde pas les données entre chaque démarrage : https://langfuse.com/docs/deployment/local
 
 
