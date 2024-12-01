@@ -63,7 +63,10 @@ def list_restaurants(page: int = 1) -> [str]:
     # Access the API to get the list of hotels
     url = f"{HOTEL_API_URL}/restaurants/?page={page}"
     response = requests.get(url, headers=get_headers())
-    data = response.json()
+    try:
+        data = response.json()
+    except:
+        data = response
     # Return the list of hotels
     return (data)
 
@@ -87,7 +90,10 @@ def search_clients(search_term: str, page: int = 1) -> [str]:
     # Access the API to get the list of hotels
     url = f"{HOTEL_API_URL}/clients/search/?search={search_term}&page={page}"
     response = requests.get(url, headers=get_headers())
-    data = response.json()
+    try:
+        data = response.json()
+    except:
+        data = response
     # Return the list of clients
     return (data)
 
@@ -106,7 +112,10 @@ def list_meals(page: int = 1) -> [str]:
     # Access the API to get the list of hotels
     url = f"{HOTEL_API_URL}/meals/?page={page}"
     response = requests.get(url, headers=get_headers())
-    data = response.json()
+    try:
+        data = response.json()
+    except:
+        data = response
     # Return the list of meals
     return (data)
 
@@ -147,7 +156,10 @@ def list_reservations(date_from: str = None, date_to: str = None, id_meal: str =
     }
     filtered_params = {k: v for k, v in params.items() if v is not None}
     response = requests.get(url, headers=get_headers(), params=filtered_params)
-    data = response.json()
+    try:
+        data = response.json()
+    except:
+        data = response
     # Return the list of hotels
     return (data)
 
@@ -171,7 +183,10 @@ def make_reservation(client: str, restaurant: str, date: str, meal: str, number_
     url = f"{HOTEL_API_URL}/reservations/"
     response = requests.post(url, headers=get_headers(), json={"client": client, "restaurant": restaurant,
                              "date": date, "meal": meal, "number_of_guests": number_of_guests, "special_requests": special_requests})
-    data = response.json()
+    try:
+        data = response.json()
+    except:
+        data = response
     # Return the result of the API call
     return (data)
 
@@ -215,8 +230,28 @@ def modify_reservation(id_reservation: str, id_client: str = None, id_restaurant
     # Return the result of the API call
     return (data)
 
+def delete_reservation(id_reservation: str) -> [str]:
+    """
+    Supprime une reservation existante
+
+    Args:
+        id_reservation (str): id technique de la reservation
+
+    Note:
+        La fonction retourne le resultat de la suppression, qui peut mentionner des erreurs
+    """
+    # Access the API to get the list of hotels
+    url = f"{HOTEL_API_URL}/reservations/{id_reservation}/"
+    response = requests.delete(url, headers=get_headers())
+    try:
+        data = response.json()
+    except:
+        data = response
+    # Return the result of the API call
+    return (data)
+
 tools = [search_tool, list_restaurants, search_clients, list_meals, list_reservations, make_reservation,
-         modify_reservation]
+         modify_reservation, delete_reservation]
 
 # Create the agent
 memory = MemorySaver()
