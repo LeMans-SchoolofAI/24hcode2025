@@ -38,14 +38,10 @@ Prototype de concierge virtuel pouvant accéder aux API de l'hôtel California
 
 ### Installation
 Créer un fichier `.env` dans le répertoire `concierge` et y ajouter les variables d'environnement suivantes :
-- `LLM_API_URL` : URL de l'API du fournisseur de LLM
-- `LLM_API_KEY` : clef d'API de l'utilisateur pour le LLM (vide si utilisation ollama ou LMStudio)
-- `API_USERNAME` : nom d'utilisateur de l'API de l'hôtel California
-- `API_TOKEN` : clef d'API de l'utilisateur de l'API de l'hôtel California
+- `MISTRAL_API_KEY` : clef d'API pour Mistral
 - `LANG_FUSE_SECRET_KEY` : secret key de Langfuse (optionnel si utilisation de Langfuse)
 - `LANG_FUSE_PUBLIC_KEY` : public kety de l'instance de Langfuse utilisée (optionnel si utilisation de Langfuse)
 - `LANG_FUSE_HOST` : URL de l'instance de Langfuse utilisée (optionnel si utilisation de Langfuse)
-- `MISTRAL_API_KEY` : clef d'API pour Mistral
 - `HOTEL_API_URL`: URL de l'API de l'hôtel California, par exemple `HOTEL_API_URL='http://localhost:8000/api'
 - `HOTEL_API_TOKEN`: token de l'utilisateur de l'API de l'hôtel California
 
