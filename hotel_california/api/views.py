@@ -109,8 +109,8 @@ class ReservationListCreateView(generics.ListCreateAPIView):
         return Reservation.objects.filter(user=self.request.user)
 
     @extend_schema(
-        summary="Liste toutes les réservations",
-        description="Retourne la liste paginée de toutes les reservations",
+        summary="Liste les réservations",
+        description="Retourne la liste paginée des reservations",
         parameters=[],
         responses={
             status.HTTP_200_OK: ReservationSerializer
