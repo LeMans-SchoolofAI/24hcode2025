@@ -43,84 +43,130 @@ def get_headers():
     return {"Authorization": f"Token {HOTEL_API_TOKEN}"}
 
 @tool
-def list_restaurants() -> [str]:
-    """Retourne la liste des restaurants de l'hotel avec les informations suivantes :
-       - id technique
-       - nom
-       - description
-       - capacité
-       - horaires d'ouverture
-       - emplacement
-       """
+def list_restaurants(page: int = 1) -> [str]:
+    """
+    Retourne la liste des restaurants de l'hôtel
+    
+    Args:
+        page (int): numéro de page de la recherche
+    
+    Returns:
+        id (str): id technique du restaurant
+        name (str): nom du restaurant
+        description (str): description du restaurant
+        capacity (int): capacité du restaurant
+        opening_hours (str): horaires d'ouverture
+        location (str): localisation du restaurant dans l'hôtel
+        is_active (bool): indique si le restaurant est actif
+    Note : la liste retour est paginée
+    """
     # Access the API to get the list of hotels
-    url = f"{HOTEL_API_URL}/restaurants"
+    url = f"{HOTEL_API_URL}/restaurants/?page={page}"
     response = requests.get(url, headers=get_headers())
     data = response.json()
     # Return the list of hotels
     return (data)
 
 @tool
-def list_clients() -> [str]:
-    """Retourne la liste des clients de l'hotel avec les informations suivantes :
-       - id technique
-       - nom
-       - numéro de téléphone
-       - numéro de chambre
-       - demandes spéciales
-       """
+def search_clients(search_term: str, page: int = 1) -> [str]:
+    """
+    Effectue une recherche sur les clients de l'hôtel
+
+    Args:
+        search_term (str): terme de recherche
+        page (int): numéro de page de la recherche
+
+    Returns: liste des clients de l'hotel correspondant au terme de recherche.
+        id (str): id technique du client
+        name (str): nom et prénom du client
+        phone_number (str): numéro de téléphone
+        room_number (str): numéro de chambre
+        special_requests (str): demandes spéciales
+    Note : la liste retour est paginée
+    """
     # Access the API to get the list of hotels
-    url = f"{HOTEL_API_URL}/clients"
+    url = f"{HOTEL_API_URL}/clients/search/?search={search_term}&page={page}"
     response = requests.get(url, headers=get_headers())
     data = response.json()
     # Return the list of clients
     return (data)
 
 @tool
-def list_meals() -> [str]:
-    """Retourne la liste des repas de l'hotel avec les informations suivantes :
-       - id technique
-       - nom du repas
-       """
+def list_meals(page: int = 1) -> [str]:
+    """
+    Retourne la liste des types de repas proposés dans l'hôtel
+    
+    Args:
+        page (int): numéro de page de la recherche
+    
+    Returns:
+        id (int): id technique
+        name (str): nom du type de repas
+    """
     # Access the API to get the list of hotels
-    url = f"{HOTEL_API_URL}/meals"
+    url = f"{HOTEL_API_URL}/meals/?page={page}"
     response = requests.get(url, headers=get_headers())
     data = response.json()
     # Return the list of meals
     return (data)
 
 @tool
-def list_reservations() -> [str]:
-    """Retourne la liste des reservations actuelles des restaurants de l'hôtel.
-       Les informations retournées sont les suivantes :
-       - id technique
-       - l'id du client (disponible dans la liste des clients)
-       - l'id du restaurant (disponible dans la liste des restaurants)
-       - date de la reservation
-       - l'id du type de repas (disponible dans la liste des repas)
-       - le nombre de convives
-       - les demandes spéciales
-       """
+def list_reservations(date_from: str = None, date_to: str = None, id_meal: str = None,
+                      id_restaurant: str = None, page: int = 1) -> [str]:
+    """
+    Retourne la liste des reservations qui répondent aux critères
+    
+    Args:
+        date_from (str): date de debut de la reservation (au format YYYY-MM-DD)
+        date_to (str): date de fin de la reservation (au format YYYY-MM-DD)
+        id_meal (str): l'id du type de repas (disponible dans la liste des repas)
+        id_restaurant (str): l'id du restaurant (disponible dans la liste des restaurants)
+        page (int): numéro de page de la recherche
+    
+    Returns:
+        id (str): id technique de la reservation
+        client (str): l'id du client
+        restaurant (str): l'id du restaurant
+        date (str): date de la reservation (au format YYYY-MM-DD)
+        meal (str): l'id du type de repas
+        number_of_guests (int): le nombre de convives
+        special_requests (str): les demandes spéciales
+    
+    Note:
+        Les paramètres sont optionnels, ne transmettre que ceux qui seront utilisés
+        La liste retour est paginée
+    """
     # Access the API to get the list of hotels
-    url = f"{HOTEL_API_URL}/reservations"
-    response = requests.get(url, headers=get_headers())
+    url = f"{HOTEL_API_URL}/reservations/"
+    params = {
+        "date_from": date_from,
+        "date_to": date_to,
+        "meal": id_meal,
+        "restaurant": id_restaurant,
+        "page": page
+    }
+    filtered_params = {k: v for k, v in params.items() if v is not None}
+    response = requests.get(url, headers=get_headers(), params=filtered_params)
     data = response.json()
     # Return the list of hotels
     return (data)
 
 @tool
 def make_reservation(client: str, restaurant: str, date: str, meal: str, number_of_guests: int, special_requests: str) -> [str]:
-    """Prend une réservation dans l'un des restaurants de l'hôtel.
-       Les informations à fournir sont les suivantes :
-       - l'id du client
-       - l'id du restaurant
-       - la date de la reservation (au format YYYY-MM-DD)
-       - l'id du type de repas (disponible dans la liste des repas)
-       - le nombre de convives
-       - les demandes spéciales
+    """
+    Prend une réservation dans l'un des restaurants de l'hôtel.
+    
+    Args:
+        id_client (str): l'id du client
+        id_restaurant (str): l'id du restaurant
+        date (str): date de la reservation (au format YYYY-MM-DD)
+        id_meal (str): l'id du type de repas (disponible dans la liste des repas)
+        number_of_guests (int): le nombre de convives
+        special_requests (str): les demandes spéciales
 
-       La fonction retourne le resultat de la reservation, qui peut
-       mentionner des erreurs
-       """
+    Note:
+        La fonction retourne le resultat de la reservation, qui peut mentionner des erreurs
+    """
     # Access the API to get the list of hotels
     url = f"{HOTEL_API_URL}/reservations/"
     response = requests.post(url, headers=get_headers(), json={"client": client, "restaurant": restaurant,
@@ -129,9 +175,48 @@ def make_reservation(client: str, restaurant: str, date: str, meal: str, number_
     # Return the result of the API call
     return (data)
 
+@tool
+def modify_reservation(id_reservation: str, id_client: str = None, id_restaurant: str = None, date: str = None,
+                       id_meal: str = None, number_of_guests: int = None, special_requests: str = None) -> [str]:
+    """
+    Modifie une reservation existante
 
-tools = [search_tool, list_restaurants, list_clients, list_meals, list_reservations, make_reservation]
+    Args:
+        id_reservation (str): id technique de la reservation
+        id_client (str): l'id du client
+        id_restaurant (str): l'id du restaurant
+        date (str): date de la reservation (au format YYYY-MM-DD)
+        id_meal (str): l'id du type de repas (disponible dans la liste des repas)
+        number_of_guests (int): le nombre de convives
+        special_requests (str): les demandes spéciales
+    
+    Note:
+        A l'exception de l'id de la reservation, tous les paramètres sont optionnels, ne transmettre que ceux qui seront modifiés
+        La fonction retourne le resultat de la modification, qui peut mentionner des erreurs
+    """
+    # Access the API to get the list of hotels
+    url = f"{HOTEL_API_URL}/reservations/{id_reservation}/"
+    # Création de la liste des paramètres modifiés
+    params = {
+        "client": id_client,
+        "restaurant": id_restaurant,
+        "date": date,
+        "meal": id_meal,
+        "number_of_guests": number_of_guests,
+        "special_requests": special_requests
+    }
+    # Filtrage des paramètres vides
+    filtered_params = {k: v for k, v in params.items() if v is not None}
+    response = requests.patch(url, headers=get_headers(), json=filtered_params)
+    try:
+        data = response.json()
+    except:
+        data = response
+    # Return the result of the API call
+    return (data)
 
+tools = [search_tool, list_restaurants, search_clients, list_meals, list_reservations, make_reservation,
+         modify_reservation]
 
 # Create the agent
 memory = MemorySaver()

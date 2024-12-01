@@ -1,12 +1,16 @@
 from rest_framework.authentication import TokenAuthentication
-from rest_framework import generics, permissions, status
-from django_filters import rest_framework as filters
+from rest_framework import generics, permissions, status, filters
+from django_filters import rest_framework as DRFFilters
+from watson import search as watson
 from .serializers import RestaurantSerializer, ClientSerializer, ReservationSerializer, MealTypeSerializer, SpaSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from drf_spectacular.utils import extend_schema, OpenApiExample
+from drf_spectacular.utils import extend_schema, OpenApiExample, OpenApiParameter
 from hotel_california_app.models import Restaurant, Client, Reservation, MealType,Spa
 
+###################################
+# Restaurants
+###################################
 @extend_schema(
     description="Liste tous les restaurants de l'hôtel",
     responses={200: RestaurantSerializer},
@@ -18,27 +22,64 @@ class RestaurantListAPIView(generics.ListAPIView):
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
 
+###################################
+# Clients
+###################################
 @extend_schema(
-    description="Liste tous les clients de l'hôtel",
+    description="Recherche des clients par nom ou numéro de téléphone",
+    parameters=[
+        OpenApiParameter(
+            name="search", 
+            description="Terme de recherche (nom ou téléphone)", 
+            required=False, 
+            type=str
+        ),
+    ],
     responses={200: ClientSerializer},
     tags=["clients"]
 )
-class ClientListAPIView(generics.ListAPIView):
-    # Only allow an authenticated user
+class ClientSearchAPIView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = ClientSerializer
 
-    # Limit the results to the current user
+    def get_queryset(self):
+        search_term = self.request.query_params.get('search', '')
+        
+        # Retourne une queryset vide si pas de terme de recherche
+        if not search_term:
+            return Client.objects.none()
+        
+        # Effectue la recherche avec watson
+        search_results = watson.filter(
+            Client.objects.filter(user=self.request.user),
+            search_term
+        )
+        
+        return search_results
+
+@extend_schema(
+    description="Récupère les détails d'un client",
+    responses={200: ClientSerializer},
+    tags=["clients"]
+)
+class ClientDetailAPIView(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = ClientSerializer
+    lookup_field = 'id'
+
     def get_queryset(self):
         """
-        Les clients retournés sont ceux uniquement ceux de l'utilisateur connecté
+        Limite l'accès aux clients de l'utilisateur connecté
         """
         return Client.objects.filter(user=self.request.user)
 
+###################################
+# Meals (Repas)
+###################################
 @extend_schema(
-    description="Liste tous les type de repas disponibles",
+    description="Liste tous les types de repas disponibles",
     responses={200: MealTypeSerializer},
-    tags=["repas", "meal"]
+    tags=["meals"]
 )
 class MealTypeListAPIView(generics.ListAPIView):
     # Only allow an authenticated user
@@ -46,9 +87,12 @@ class MealTypeListAPIView(generics.ListAPIView):
     queryset = MealType.objects.all()
     serializer_class = MealTypeSerializer
 
-class ReservationFilter(filters.FilterSet):
-    date_from = filters.DateFilter(field_name='date', lookup_expr='gte')
-    date_to = filters.DateFilter(field_name='date', lookup_expr='lte')
+###################################
+# Réservations
+###################################
+class ReservationFilter(DRFFilters.FilterSet):
+    date_from = DRFFilters.DateFilter(field_name='date', lookup_expr='gte')
+    date_to = DRFFilters.DateFilter(field_name='date', lookup_expr='lte')
 
     class Meta:
         model = Reservation
@@ -120,6 +164,14 @@ class ReservationDetailView(generics.RetrieveUpdateDestroyAPIView):
         """Ensure users can only access their own reservations"""
         return Reservation.objects.filter(user=self.request.user)
 
+###################################
+# Spas
+###################################
+@extend_schema(
+    description="Liste tous les spas de l'hôtel",
+    responses={200: SpaSerializer},
+    tags=["spas"]
+)
 class SpaListAPI(APIView):
     def get(self, request):
         spas = Spa.objects.all()

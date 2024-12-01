@@ -50,6 +50,7 @@ class ReservationSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         # Add custom validation here
-        if data['number_of_guests'] <= 0:
+        # 'number_of_guests' is not always present because of partial updates
+        if 'number_of_guests' in data and data['number_of_guests'] <= 0:
             raise serializers.ValidationError("Number of guests must be positive")
         return data

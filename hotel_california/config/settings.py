@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'drf_spectacular',
+    'watson',
 ]
 
 MIDDLEWARE = [
@@ -97,12 +98,8 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'API de gestion de l\'hotel california',
     'VERSION': '1.0.0',
     'COMPONENT_SPLIT_REQUEST': True,
-#    'SCHEMA_PATH_PREFIX': '/api/',
-    'COMPONENT_NO_READ_ONLY_REQUIRED': True,
-    'SERVE_INCLUDE_SCHEMA': True,
-    'SCHEMA_COERCE_PATH_PK_SUFFIX': True,
-    'ENABLE_DJANGO_DEPLOY_CHECK': False,  # Temporairement pour le debug
-    'VERBOSE_ERRORS': True  # Ajoute plus de détails aux erreurs
+#    'ENABLE_DJANGO_DEPLOY_CHECK': False,  # Temporairement pour le debug
+#    'VERBOSE_ERRORS': True  # Ajoute plus de détails aux erreurs
 }
 
 # Database
