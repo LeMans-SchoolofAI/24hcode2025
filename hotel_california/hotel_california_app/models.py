@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 
 class Restaurant(models.Model):
@@ -77,7 +78,12 @@ class Reservation(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     date = models.DateField()
     meal = models.ForeignKey(MealType, on_delete=models.CASCADE)
-    number_of_guests = models.IntegerField()
+    number_of_guests = models.IntegerField(
+        validators=[
+            MinValueValidator(1, message="Le nombre de convives doit être d'au moins 1"),
+            MaxValueValidator(100, message="Le nombre de convives ne peut pas dépasser 100")
+        ]
+    )
     special_requests = models.TextField(blank=True)
 
     def __str__(self):

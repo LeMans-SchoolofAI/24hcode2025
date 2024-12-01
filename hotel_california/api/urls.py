@@ -3,7 +3,11 @@ from .views import RestaurantListAPIView, ClientListAPIView, MealTypeListAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularSwaggerView,
+    SpectacularRedocView
+)
 app_name = 'api'
 
 class APIRootView(APIView):
@@ -24,4 +28,7 @@ urlpatterns = [
     path('reservations/', ReservationListCreateView.as_view(), name='reservation-list'),
     path('reservations/<int:pk>/', ReservationDetailView.as_view(), name='reservation-detail'),
     path('spas/', SpaListAPI.as_view(), name='spa-list'),
+    path('schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('docs/', SpectacularSwaggerView.as_view(url='/api/schema/'), name='swagger-ui'),
+    path('redoc/', SpectacularRedocView.as_view(url='/api/schema/'), name='redoc'),
 ]

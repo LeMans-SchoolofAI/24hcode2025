@@ -93,10 +93,10 @@ def list_reservations() -> [str]:
     """Retourne la liste des reservations actuelles des restaurants de l'hôtel.
        Les informations retournées sont les suivantes :
        - id technique
-       - le client
-       - le restaurant
+       - l'id du client (disponible dans la liste des clients)
+       - l'id du restaurant (disponible dans la liste des restaurants)
        - date de la reservation
-       - le type de repas
+       - l'id du type de repas (disponible dans la liste des repas)
        - le nombre de convives
        - les demandes spéciales
        """
@@ -111,10 +111,10 @@ def list_reservations() -> [str]:
 def make_reservation(client: str, restaurant: str, date: str, meal: str, number_of_guests: int, special_requests: str) -> [str]:
     """Prend une réservation dans l'un des restaurants de l'hôtel.
        Les informations à fournir sont les suivantes :
-       - le client
-       - le restaurant
+       - l'id du client
+       - l'id du restaurant
        - la date de la reservation (au format YYYY-MM-DD)
-       - le type de repas (son nom, pas son id technique)
+       - l'id du type de repas (disponible dans la liste des repas)
        - le nombre de convives
        - les demandes spéciales
 
