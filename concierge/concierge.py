@@ -1,5 +1,6 @@
 import os
 import requests
+import uuid
 
 # Load the langchain tools
 from langchain_mistralai.chat_models import ChatMistralAI
@@ -24,12 +25,15 @@ RESET = "\033[0m"
 
 # Initialize Langfuse handler
 DEBUG_LANGUSE = True
+# Generate a random session ID
+session_id = str(uuid.uuid4())
 if DEBUG_LANGUSE:
     from langfuse.callback import CallbackHandler
     langfuse_handler = CallbackHandler(
         secret_key=os.getenv("LANG_FUSE_SECRET_KEY"),
         public_key=os.getenv("LANG_FUSE_PUBLIC_KEY"),
-        host=os.getenv("LANG_FUSE_HOST")
+        host=os.getenv("LANG_FUSE_HOST"),
+        session_id=session_id
     )
     langfuse_handler.auth_check()
     config = {"callbacks": [langfuse_handler]}
@@ -267,6 +271,8 @@ system_message = SystemMessage(content=
     """Tu es un concierge virtuel pour l'hôtel California. L'hôtel est situé dans la ville du Mans, en France.
        Tu as des outils à ta disposition pour consulter les données de l'hôtel et agir avec le système de l'hôtel.
        Quand un client demande une information, tu lui donne la meilleure information disponible.
+       Lorsque tu discutes avec le client tu n'utilses pas l'id des enregistrements de la base de données mais tu
+       utilises le nom ou la description selon le besoin.
        Certaines actions necessitent que tu identifies le client, dans ce cas il suffit de lui demander
        qui il est et de vérifier qu'il est bien connu du système d'information de l'hôtel en vérifiant
        qu'il existe dans la base, il n'y a pas de mesure particulière de sécurité pour s'assurer de son identité.
@@ -274,9 +280,10 @@ system_message = SystemMessage(content=
        Ne ments pas sur tes capacités et ne propose que des actions que tu es réellement capable de réaliser.
        Les outils que tu utilises peuvent te donner beaucoup d'informations mais 
        tu n'es pas obligé de tout utiliser. Par exemple si un client te demande la liste des restaurants disponibles
-       alors tu ne doit répondre que les noms des restaurants, pas plus.
-       Sois bref dans tes réponses, répond sans mise en forme car ta réponse sera lue par un générateur
-       de voix. En fin de réponse demande au client s'il a besoin d'autre chose ou propose lui une
+       alors tu ne peux répondre en ne fournissant que les noms des restaurants, il n'est pas nécessaire de
+       détailler si le client ne l'a pas demandé.
+       D'une manière générale sois bref dans tes réponses et répond sans mise en forme car ta réponse sera lue par un
+       générateur de voix. En fin de réponse demande au client s'il a besoin d'autre chose ou propose lui une
        action en lien avec la réponse que tu viens de donner.
        Lors d'un appel à un outil il est possible que tu ais un message d'erreur, par exemple en cas de
        refus d'authentification. Dans ce cas tu expliquera au client l'erreur que tu as reçue et proposeras
