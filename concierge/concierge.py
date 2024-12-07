@@ -125,7 +125,7 @@ def list_meals(page: int = 1) -> [str]:
 
 @tool
 def list_reservations(date_from: str = None, date_to: str = None, id_meal: str = None,
-                      id_restaurant: str = None, page: int = 1) -> [str]:
+                      id_restaurant: str = None, id_client: str = None, page: int = 1) -> [str]:
     """
     Retourne la liste des reservations qui répondent aux critères
     
@@ -134,6 +134,7 @@ def list_reservations(date_from: str = None, date_to: str = None, id_meal: str =
         date_to (str): date de fin de la reservation (au format YYYY-MM-DD)
         id_meal (str): l'id du type de repas (disponible dans la liste des repas)
         id_restaurant (str): l'id du restaurant (disponible dans la liste des restaurants)
+        id_client (str): l'id du client (disponible dans la liste des clients)
         page (int): numéro de page de la recherche
     
     Returns:
@@ -156,6 +157,7 @@ def list_reservations(date_from: str = None, date_to: str = None, id_meal: str =
         "date_to": date_to,
         "meal": id_meal,
         "restaurant": id_restaurant,
+        "client": id_client,
         "page": page
     }
     filtered_params = {k: v for k, v in params.items() if v is not None}
@@ -164,7 +166,7 @@ def list_reservations(date_from: str = None, date_to: str = None, id_meal: str =
         data = response.json()
     except:
         data = response
-    # Return the list of hotels
+    # Return the list of restaurants
     return (data)
 
 @tool

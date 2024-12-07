@@ -93,10 +93,13 @@ class MealTypeListAPIView(generics.ListAPIView):
 class ReservationFilter(DRFFilters.FilterSet):
     date_from = DRFFilters.DateFilter(field_name='date', lookup_expr='gte')
     date_to = DRFFilters.DateFilter(field_name='date', lookup_expr='lte')
+    client = filters.NumberFilter(field_name='client__id')
+    restaurant = filters.NumberFilter(field_name='restaurant__id')
+    meal = filters.NumberFilter(field_name='meal__id')
 
     class Meta:
         model = Reservation
-        fields = ['restaurant', 'meal', 'date_from', 'date_to']
+        fields = ['client', 'restaurant', 'meal', 'date_from', 'date_to']
 
 class ReservationListCreateView(generics.ListCreateAPIView):
     # Only allow an authenticated user
