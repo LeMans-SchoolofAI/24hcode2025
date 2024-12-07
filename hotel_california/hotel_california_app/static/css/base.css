@@ -1,0 +1,156 @@
+/* Variables globales */
+:root {
+    --primary: #79aec8;
+    --secondary: #417690;
+    --accent: #ffd700;
+    --text-light: #ffffff;
+    --text-dark: #333333;
+    --background-light: #ffffff;
+    --background-dark: rgba(0, 0, 0, 0.7);
+    --font-primary: "Segoe UI", system-ui, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Reset et styles de base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: var(--font-primary);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-dark);
+    background: var(--background-light);
+}
+
+/* Header et Navigation */
+.main-header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    background: var(--background-dark);
+    backdrop-filter: blur(5px);
+}
+
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo img {
+    height: 50px;
+    width: auto;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    font-weight: 500;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--accent);
+}
+
+.btn-reservation {
+    background-color: var(--accent);
+    color: var(--text-dark) !important;
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    text-shadow: none !important;
+    transition: transform 0.3s ease;
+}
+
+.btn-reservation:hover {
+    transform: scale(1.05);
+}
+
+/* Hero Section */
+.hero-image {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+.hero-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7);
+}
+
+/* Main Content */
+main {
+    margin-top: 70px;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 70px auto 0;
+}
+
+/* Messages système */
+.messages {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 1001;
+}
+
+.alert {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Utilitaires */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .main-nav {
+        padding: 1rem;
+    }
+    
+    .nav-links {
+        gap: 1rem;
+    }
+    
+    .logo img {
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-links {
+        display: none; /* À remplacer par un menu hamburger */
+    }
+}
