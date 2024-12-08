@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import RestaurantListAPIView, ClientSearchAPIView, ClientDetailAPIView, MealTypeListAPIView, ReservationListCreateView, ReservationDetailView, SpaListAPI
+from .views import RestaurantListAPIView, ClientAPIView, ClientDetailAPIView, MealTypeListAPIView, ReservationListCreateView, ReservationDetailView, SpaListAPI
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -14,7 +14,7 @@ class APIRootView(APIView):
     def get(self, request, *args, **kwargs):
         return Response({
             'restaurants': reverse('api:restaurant-list', request=request),
-            'clients': reverse('api:client-search', request=request),
+            'clients': reverse('api:client', request=request),
             'clients-detail': reverse('api:client-detail', request=request, kwargs={'id': 1}),
             'meals': reverse('api:meal-list', request=request),
             'reservations': reverse('api:reservation-list', request=request),
@@ -24,7 +24,7 @@ class APIRootView(APIView):
 urlpatterns = [
     path('', APIRootView.as_view(), name='api-root'),
     path('restaurants/', RestaurantListAPIView.as_view(), name='restaurant-list'),
-    path('clients/search/', ClientSearchAPIView.as_view(), name='client-search'),
+    path('clients/', ClientAPIView.as_view(), name='client'),
     path('clients/<int:id>/', ClientDetailAPIView.as_view(), name='client-detail'),
     path('meals/', MealTypeListAPIView.as_view(), name='meal-list'),
     path('reservations/', ReservationListCreateView.as_view(), name='reservation-list'),

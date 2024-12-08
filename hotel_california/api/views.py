@@ -1,5 +1,5 @@
 from rest_framework.authentication import TokenAuthentication
-from rest_framework import generics, permissions, status, filters
+from rest_framework import generics, permissions, status, filters, mixins
 from django_filters import rest_framework as DRFFilters
 from watson import search as watson
 from .serializers import RestaurantSerializer, ClientSerializer, ReservationSerializer, MealTypeSerializer, SpaSerializer
@@ -35,20 +35,7 @@ class WatsonSearchFilter(filters.SearchFilter):
         
         return watson.filter(queryset, search_term)
 
-@extend_schema(
-    description="Recherche des clients par nom ou numéro de téléphone",
-    parameters=[
-        OpenApiParameter(
-            name="search", 
-            description="Terme de recherche (nom ou téléphone)", 
-            required=False, 
-            type=str
-        ),
-    ],
-    responses={200: ClientSerializer},
-    tags=["clients"]
-)
-class ClientSearchAPIView(generics.ListAPIView):
+class ClientAPIView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = ClientSerializer
     filter_backends = [WatsonSearchFilter]
@@ -57,12 +44,44 @@ class ClientSearchAPIView(generics.ListAPIView):
     def get_queryset(self):
         return Client.objects.filter(user=self.request.user)
 
-@extend_schema(
-    description="Récupère les détails d'un client",
-    responses={200: ClientSerializer},
-    tags=["clients"]
-)
-class ClientDetailAPIView(generics.RetrieveAPIView):
+    @extend_schema(
+        summary="Rechercher un client",
+        description="Rechercher un client",
+        parameters=[OpenApiParameter('search', 'Chaine de recherche', OpenApiParameter.QUERY)],
+        responses={
+            status.HTTP_200_OK: ClientSerializer
+        }
+    )
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+    
+    @extend_schema(
+        summary="Créer un client",
+        description="Créer un client",
+        responses={
+            status.HTTP_201_CREATED: ClientSerializer,
+            status.HTTP_400_BAD_REQUEST: None
+        },
+        examples=[
+            OpenApiExample(
+                'Client valide',
+                value={
+                    'name': 'John Doe',
+                    'phone_number': '+1 (555) 123-4567',
+                    'room_number': '205',
+                    'special_requests': 'None'
+                },
+                description="Exemple d'un client valide"
+            )
+        ]
+    )
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
+
+class ClientDetailAPIView(generics.GenericAPIView,
+                        mixins.RetrieveModelMixin,
+                        mixins.UpdateModelMixin,
+                        mixins.DestroyModelMixin):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = ClientSerializer
     lookup_field = 'id'
@@ -72,6 +91,39 @@ class ClientDetailAPIView(generics.RetrieveAPIView):
         Limite l'accès aux clients de l'utilisateur connecté
         """
         return Client.objects.filter(user=self.request.user)
+
+    @extend_schema(
+        summary="Détailler un client",
+        description="Retourne les informations détaillées d'un client",
+        parameters=[],
+        responses={
+            status.HTTP_200_OK: ClientSerializer
+        }
+    )
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    @extend_schema(
+        summary="Modifier un client",
+        description="Modifie les informations d'un client",
+        parameters=[],
+        responses={
+            status.HTTP_200_OK: ClientSerializer
+        }
+    )
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    @extend_schema(
+        summary="Supprimer un client",
+        description="Supprime un client",
+        parameters=[],
+        responses={
+            status.HTTP_204_NO_CONTENT: None
+        }
+    )
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 ###################################
 # Meals (Repas)
@@ -119,9 +171,6 @@ class ReservationListCreateView(generics.ListCreateAPIView):
         }
     )
     def get(self, request, *args, **kwargs):
-        """
-        Récupère la liste des réservations.
-        """
         return super().get(request, *args, **kwargs)
 
     def perform_create(self, serializer):
