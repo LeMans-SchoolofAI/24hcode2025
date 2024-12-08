@@ -1,48 +1,113 @@
-<h1>Hotel California</h1>
+{% extends 'base.html' %}
+{% load static %}
 
-<h2>Welcome, {{ request.user.username }}!</h2>
+{% block title %}{{ hotel_name }} - {{ hotel_location }}{% endblock %}
 
-{% if request.user.is_staff %}
-    <h2>Admin tools (not shown to users)</h2>
-    <a href="/admin/">Admin</a>
-    <br>
-    <a href="{% url 'hotel_california_app:reset_view' %}">Reset all datas in app</a>
-    <br>
-{% endif %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<style>
+    /* Add responsive image handling */
+    .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
 
-{% comment %} Block message {% endcomment %}
-{% if messages %}
-    <h2>Messages</h2>
-    {% for message in messages %}
-        <p>{{ message }}</p>
-    {% endfor %}
-{% endif %}
+    .gallery img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 8px;
+        transition: transform 0.3s ease;
+    }
 
-<h2>Access the tools</h2>
-<a href="{% url 'hotel_california_app:reset_user_view' %}">Reset my datas</a>
-<br>
-<br>
+    .gallery img:hover {
+        transform: scale(1.05);
+    }
 
-<h2>Access the API</h2>
-<a href="{% url 'api:client-list' %}">Client List</a>
-<br>
-<a href="{% url 'api:restaurant-list' %}">Restaurant List</a>
-<br>
-<a href="{% url 'api:meal-list' %}">Meal List</a>
-<br>
-<a href="{% url 'api:reservation-list' %}">Reservation List</a>
-<br>
-<a href="{% url 'api:spa-list' %}">Spa List</a> <!-- Lien vers l'API des spas -->
-<br>
-<br>
+    /* Responsive navigation */
+    nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        padding: 15px;
+    }
 
-<h2>Nos catalogues</h2>
-<a href="{% url 'hotel_california_app:list_spas' %}">Liste des Spas</a> <!-- Lien vers la page des spas -->
-<br>
-<br>
+    /* Responsive sections */
+    section {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
 
-<h2>Logout</h2>
-<form method="post" action="{% url 'hotel_california_app:logout' %}">
-    {% csrf_token %}
-    <button type="submit">Logout</button>
-</form>
+    /* Make sure images don't overflow their containers */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<section id="services" class="services">
+    <h2>Bienvenue à {{ hotel_name }}</h2>
+    <p>{{ welcome_text }}</p>
+    <div class="gallery">
+        <img src="{% static 'media/lobby.png' %}" alt="Lobby de l'hôtel">
+        <img src="{% static 'media/room.png' %}" alt="Chambre deluxe">
+        <img src="{% static 'media/pool.png' %}" alt="Piscine extérieure">
+    </div>
+</section>
+
+<section id="restaurants" class="restaurants">
+    <h2>{{ restaurants_title }}</h2>
+    <p>{{ restaurants_intro }}</p>
+    <ul>
+        {% for restaurant in restaurants %}
+        <li>
+            <strong>{{ restaurant.name }}:</strong> {{ restaurant.description }}
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+
+<section id="spa" class="spa">
+    <h2>{{ spa_title }}</h2>
+    <p>{{ spa_description }}</p>
+    <ul>
+        {% for service in spa_services %}
+        <li>{{ service }}</li>
+        {% endfor %}
+    </ul>
+    <p>{{ spa_therapist_note }}</p>
+</section>
+
+<section id="activities" class="activities">
+    <h2>{{ activities_title }}</h2>
+    <p>{{ activities_intro }}</p>
+    <ul>
+        {% for activity in activities %}
+        <li>
+            <strong>{{ activity.name }}:</strong> {{ activity.description }}
+        </li>
+        {% endfor %}
+    </ul>
+    <p>{{ concierge_note }}</p>
+</section>
+
+<footer id="contact">
+    <p>{{ hotel_name }} - {{ hotel_address }}</p>
+    <p>Téléphone: {{ phone }} | Email: {{ email }}</p>
+    <p>
+        Suivez-nous:
+        {% for social in social_links %}
+        <a href="{{ social.url }}" target="_blank">{{ social.name }}</a>
+        {% if not forloop.last %} | {% endif %}
+        {% endfor %}
+    </p>
+    <p>&copy; {% now "Y" %} {{ hotel_name }}. Tous droits réservés.</p>
+</footer>
+{% endblock %}

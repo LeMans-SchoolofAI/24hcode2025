@@ -1,10 +1,19 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
+from watson import search as watson
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    capacity = models.IntegerField()
+    capacity = models.IntegerField(
+        validators=[
+            MinValueValidator(1, message="La capacité doit être d'au moins 1"),
+            MaxValueValidator(250, message="La capacité ne peut pas dépasser 250")
+        ]
+    )
     opening_hours = models.CharField(max_length=200)  # Could be JSON field for more complex schedules
     location = models.CharField(max_length=100)  # Location within the hotel
     is_active = models.BooleanField(default=True)
@@ -77,7 +86,12 @@ class Reservation(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     date = models.DateField()
     meal = models.ForeignKey(MealType, on_delete=models.CASCADE)
-    number_of_guests = models.IntegerField()
+    number_of_guests = models.IntegerField(
+        validators=[
+            MinValueValidator(1, message="Le nombre de convives doit être d'au moins 1"),
+            MaxValueValidator(100, message="Le nombre de convives ne peut pas dépasser 100")
+        ]
+    )
     special_requests = models.TextField(blank=True)
 
     def __str__(self):
@@ -94,3 +108,11 @@ class Spa(models.Model):
 
     def __str__(self):
         return self.name
+
+# Enregistrer le modèle pour la recherche
+watson.register(Client, fields=("name", "phone_number"))
+
+# Déclaration des signaux automatiques pour la mise en oeuvre de la recherche floue
+@receiver(post_save, sender=Client)
+def update_search_index(sender, instance, **kwargs):
+    watson.default_search_engine.update_obj_index(instance)

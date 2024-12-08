@@ -22,58 +22,35 @@ class SpaSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ReservationSerializer(serializers.ModelSerializer):
+    number_of_guests = serializers.IntegerField(
+        min_value=1,
+        max_value=100,
+        help_text="Nombre de convives (entre 1 et 100)"
+    )
     date = serializers.DateField(
         format="%Y-%m-%d",
         input_formats=['%Y-%m-%d'],  # Liste des formats acceptés en entrée
         help_text="Format de date attendu : YYYY-MM-DD"
     )
-    meal = serializers.SlugRelatedField(
-        queryset=MealType.objects.all(),
-        slug_field='name'    # Utilise le champ 'name' pour la création/mise à jour
-    )
-    restaurant = serializers.SlugRelatedField(
-        queryset=Restaurant.objects.all(),
-        slug_field='name'
-    )
-    
-    # Remplacer le champ client existant par un CharField
-    # En lecture on retourne uniquement client_name
-    # En creation on attend `client` dans lequel on mettre le nom du client
-    client = serializers.CharField(write_only=True, required=True)
-    client_name = serializers.CharField(source='client.name', read_only=True)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        user = self.context['request'].user
-        self.fields['client'].queryset = Client.objects.filter(user=user)
 
     class Meta:
         model = Reservation
-        fields = ['id', 'client', 'client_name', 'restaurant', 'date',
+        fields = ['id', 'client', 'restaurant', 'date',
                   'meal', 'number_of_guests', 'special_requests']
-    
-    def validate_client(self, value):
-        """
-        Valider que le client existe et appartient à l'utilisateur courant
-        """
-        request = self.context.get('request')
-        try:
-            client = Client.objects.get(name=value, user=request.user)
-            return client
-        except Client.DoesNotExist:
-            raise serializers.ValidationError(
-                "Client non trouvé (ou n'appartenant pas à l'utilisateur courant)"
-            )
-    
-    def validate_restaurant(self, value):
-        if not Restaurant.objects.filter(name=value, is_active=True).exists():
-            raise serializers.ValidationError(
-                "Ce restaurant n'existe pas ou n'est pas actif"
-            )
-        return value
-    
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Vérification de l'existence du contexte et de la requête
+        if self.context and 'request' in self.context and self.context['request']:
+            user = self.context['request'].user
+            self.fields['client'].queryset = Client.objects.filter(user=user)
+        else:
+            # Fallback pour la génération du schéma
+            self.fields['client'].queryset = Client.objects.all()
+
     def validate(self, data):
         # Add custom validation here
-        if data['number_of_guests'] <= 0:
+        # 'number_of_guests' is not always present because of partial updates
+        if 'number_of_guests' in data and data['number_of_guests'] <= 0:
             raise serializers.ValidationError("Number of guests must be positive")
         return data

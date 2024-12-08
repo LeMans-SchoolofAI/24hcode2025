@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Hôtel California{% endblock %}</title>
+    
+    <!-- CSS commun -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block styles %}{% endblock %}
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+
+    <!-- Meta tags -->
+    <meta name="description" content="Hôtel California - Votre séjour de luxe au Mans">
+    <meta name="keywords" content="hôtel, le mans, luxe, spa, restaurant, hébergement">
+</head>
+<body>
+    <!-- En-tête commune à toutes les pages -->
+    <header class="main-header">
+        <nav class="main-nav">
+            <div class="logo">
+                <a href="{% url 'hotel_california_app:home' %}">
+                    <img src="{% static 'media/logo.png' %}" alt="Logo Hôtel California">
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="{% url 'hotel_california_app:home' %}#services">Services</a>
+                <a href="{% url 'hotel_california_app:home' %}#restaurants">Restaurants</a>
+                <a href="{% url 'hotel_california_app:home' %}#spa">Spa</a>
+                <a href="{% url 'hotel_california_app:home' %}#activities">Activités</a>
+                <a href="{% url 'hotel_california_app:home' %}#contact">Contact</a>
+                <a href="{% url 'hotel_california_app:user_home' %}" class="btn-reservation">Réserver</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Messages système (notifications, erreurs, etc.) -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Contenu principal -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- JavaScript commun -->
+    <script src="{% static 'js/base.js' %}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
