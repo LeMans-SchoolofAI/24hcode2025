@@ -116,7 +116,3 @@ watson.register(Client, fields=("name", "phone_number"))
 @receiver(post_save, sender=Client)
 def update_search_index(sender, instance, **kwargs):
     watson.default_search_engine.update_obj_index(instance)
-
-@receiver(post_delete, sender=Client)
-def remove_from_search_index(sender, instance, **kwargs):
-    watson.default_search_engine.remove_obj_index(instance)

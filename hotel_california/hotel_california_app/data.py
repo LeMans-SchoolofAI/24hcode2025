@@ -78,6 +78,6 @@ def reset_user_datas(user):
     # Delete the datas
     Client.objects.filter(user=user).delete()
     Reservation.objects.filter(user=user).delete()
-    setup_datas(full=False, user=user)
+    setup_datas(full=False, specific_user=user)
     return True
     
