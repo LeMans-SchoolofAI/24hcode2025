@@ -17,8 +17,8 @@ class APIRootView(APIView):
             'clients': reverse('api:client', request=request),
             'clients-detail': reverse('api:client-detail', request=request, kwargs={'id': 1}),
             'meals': reverse('api:meal-list', request=request),
-            'reservations': reverse('api:reservation-list', request=request),
-            'reservation-detail': reverse('api:reservation-detail', request=request, kwargs={'pk': 1}),
+            'reservations': reverse('api:reservation', request=request),
+            'reservation-detail': reverse('api:reservation-detail', request=request, kwargs={'id': 1}),
         })
 
 urlpatterns = [
@@ -27,8 +27,8 @@ urlpatterns = [
     path('clients/', ClientAPIView.as_view(), name='client'),
     path('clients/<int:id>/', ClientDetailAPIView.as_view(), name='client-detail'),
     path('meals/', MealTypeListAPIView.as_view(), name='meal-list'),
-    path('reservations/', ReservationListCreateView.as_view(), name='reservation-list'),
-    path('reservations/<int:pk>/', ReservationDetailView.as_view(), name='reservation-detail'),
+    path('reservations/', ReservationListCreateView.as_view(), name='reservation'),
+    path('reservations/<int:id>/', ReservationDetailView.as_view(), name='reservation-detail'),
     path('spas/', SpaListAPI.as_view(), name='spa-list'),
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
     path('docs/', SpectacularSwaggerView.as_view(url='/api/schema/'), name='swagger-ui'),

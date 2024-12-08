@@ -22,6 +22,14 @@ class RestaurantListAPIView(generics.ListAPIView):
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
 
+    @extend_schema(
+        summary="Lister tous les restaurants de l'hôtel",
+        responses={200: RestaurantSerializer},
+        tags=["restaurants"]
+    )
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
 ###################################
 # Clients
 ###################################
@@ -142,6 +150,17 @@ class MealTypeListAPIView(generics.ListAPIView):
     queryset = MealType.objects.all()
     serializer_class = MealTypeSerializer
 
+    @extend_schema(
+        summary="Lister les types de repas",
+        description="Retourne la liste des types de repas",
+        parameters=[],
+        responses={
+            status.HTTP_200_OK: MealTypeSerializer
+        }
+    )
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
 ###################################
 # Réservations
 ###################################
@@ -166,8 +185,8 @@ class ReservationListCreateView(generics.ListCreateAPIView):
         return Reservation.objects.filter(user=self.request.user)
 
     @extend_schema(
-        summary="Liste les réservations",
-        description="Retourne la liste paginée des reservations",
+        summary="Lister les réservations",
+        description="Retourne la liste paginée des reservations répondant aux critères",
         parameters=[],
         responses={
             status.HTTP_200_OK: ReservationSerializer
@@ -209,14 +228,51 @@ class ReservationListCreateView(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
 
-class ReservationDetailView(generics.RetrieveUpdateDestroyAPIView):
+class ReservationDetailView(generics.GenericAPIView,
+                        mixins.RetrieveModelMixin,
+                        mixins.UpdateModelMixin,
+                        mixins.DestroyModelMixin):
     # Only allow an authenticated user
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = ReservationSerializer
+    lookup_field = 'id'
 
     def get_queryset(self):
         """Ensure users can only access their own reservations"""
         return Reservation.objects.filter(user=self.request.user)
+    
+    @extend_schema(
+        summary="Modifier une reservation",
+        description="Modifie les informations d'une reservation",
+        parameters=[],
+        responses={
+            status.HTTP_200_OK: ReservationSerializer
+        }
+    )
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    @extend_schema(
+        summary="Supprimer une reservation",
+        description="Supprime une reservation",
+        parameters=[],
+        responses={
+            status.HTTP_204_NO_CONTENT: None
+        }
+    )
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+    
+    @extend_schema(
+        summary="Détailler une reservation",
+        description="Retourne les informations concernant une reservation",
+        parameters=[],
+        responses={
+            status.HTTP_200_OK: ReservationSerializer
+        }
+    )
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
 
 ###################################
 # Spas
@@ -227,6 +283,14 @@ class ReservationDetailView(generics.RetrieveUpdateDestroyAPIView):
     tags=["spas"]
 )
 class SpaListAPI(APIView):
+    @extend_schema(
+        summary="Lister tous les spas de l'hôtel",
+        description="Retourne la liste des spas",
+        parameters=[],
+        responses={
+            status.HTTP_200_OK: SpaSerializer
+        }
+    )
     def get(self, request):
         spas = Spa.objects.all()
         serializer = SpaSerializer(spas, many=True)

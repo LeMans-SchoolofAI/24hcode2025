@@ -6,11 +6,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 
 from .data import setup_datas, reset_datas, reset_user_datas
-from .models import Spa
+from .models import Spa, Restaurant
 
 @login_required
-def home_view(request):
-    return render(request, 'home.html')
+def user_home_view(request):
+    return render(request, 'user_home.html')
 
 
 # Vérifier si l'utilisateur est un superutilisateur
@@ -30,41 +30,32 @@ def reset_view(request):
         raise PermissionDenied
     if request.method == 'POST':
         reset_datas(full=True)
-        return render(request, 'home.html', context = {"messages" : ["Datas reset"]})
+        return render(request, 'huser_home.html', context = {"messages" : ["Datas reset"]})
     return render(request, 'admin_reset.html')
 
 # Réinitialise la configuration pour un utilisateur
 def reset_user_view(request):
     reset_user_datas(request.user)
-    return render(request, 'home.html', context = {"messages" : ["User datas reset"]})
+    return render(request, 'user_home.html', context = {"messages" : ["User datas reset"]})
     
 def list_spas(request):
     """Vue pour afficher une liste de spas."""
     spas = Spa.objects.all()
     return render(request, 'spa_list.html', {'spas': spas})
 
-def description_view(request):
+def home_view(request):
+    restaurants = Restaurant.objects.all()
+    # Générer la liste des restaurants sous la forme de dictionnaire avec le nom et la description
+    restaurants_list = [{'name': restaurant.name, 'description': restaurant.description} for restaurant in restaurants]
+
     context = {
         'hotel_name': "Hôtel California",
         'hotel_location': "Le Mans",
         'welcome_text': "Situé au cœur de la charmante ville du Mans, l'Hôtel California vous accueille dans un cadre exceptionnel où le luxe et le raffinement se rencontrent. Notre établissement cinq étoiles offre une expérience inoubliable, alliant confort moderne et élégance classique.",
         
         'restaurants_title': "Restaurants Gastronomiques",
-        'restaurants_intro': "Découvrez nos trois restaurants exquis, chacun proposant une expérience culinaire unique :",
-        'restaurants': [
-            {
-                'name': "Le Gourmet",
-                'description': "Une cuisine française traditionnelle revisitée par notre chef étoilé. Savourez des plats préparés avec des ingrédients locaux et de saison dans une ambiance élégante."
-            },
-            {
-                'name': "La Terrace",
-                'description': "Un restaurant en plein air offrant une vue panoramique sur la ville. Idéal pour un déjeuner décontracté ou un dîner romantique sous les étoiles."
-            },
-            {
-                'name': "Sakura Fusion",
-                'description': "Un voyage culinaire asiatique mêlant saveurs japonaises et influences occidentales. Une expérience gastronomique innovante pour les amateurs d'exotisme."
-            }
-        ],
+        'restaurants_intro': "Découvrez nos restaurants exquis, chacun proposant une expérience culinaire unique :",
+        'restaurants': restaurants_list,
 
         'spa_title': "Spa & Bien-être",
         'spa_description': "Notre spa luxueux est un sanctuaire de détente et de revitalisation. Offrez-vous un moment de pur bien-être avec nos soins personnalisés :",
@@ -108,4 +99,4 @@ def description_view(request):
         ]
     }
     
-    return render(request, 'description.html', context)
+    return render(request, 'home.html', context)

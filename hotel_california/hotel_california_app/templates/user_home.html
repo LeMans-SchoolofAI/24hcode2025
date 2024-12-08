@@ -1,0 +1,48 @@
+<h1>Hotel California</h1>
+
+<h2>Welcome, {{ request.user.username }}!</h2>
+
+{% if request.user.is_staff %}
+    <h2>Admin tools (not shown to users)</h2>
+    <a href="/admin/">Admin</a>
+    <br>
+    <a href="{% url 'hotel_california_app:reset_view' %}">Reset all datas in app</a>
+    <br>
+{% endif %}
+
+{% comment %} Block message {% endcomment %}
+{% if messages %}
+    <h2>Messages</h2>
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<h2>Access the tools</h2>
+<a href="{% url 'hotel_california_app:reset_user_view' %}">Reset my datas</a>
+<br>
+<br>
+
+<h2>Access the API</h2>
+<a href="{% url 'api:client' %}">Client API</a>
+<br>
+<a href="{% url 'api:restaurant-list' %}">Restaurant List</a>
+<br>
+<a href="{% url 'api:meal-list' %}">Meal List</a>
+<br>
+<a href="{% url 'api:reservation' %}">Reservation API</a>
+<br>
+<a href="{% url 'api:spa-list' %}">Spa List</a> <!-- Lien vers l'API des spas -->
+<br>
+<br>
+
+<h2>Nos catalogues</h2>
+<a href="{% url 'hotel_california_app:list_spas' %}">Liste des Spas</a> <!-- Lien vers la page des spas -->
+<br>
+<br>
+
+<h2>Logout</h2>
+<form method="post" action="{% url 'hotel_california_app:logout' %}">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>
