@@ -71,13 +71,12 @@ def list_restaurants(page: int = 1) -> [str]:
         data = response.json()
     except:
         data = response
-    # Return the list of hotels
     return (data)
 
 @tool
 def search_clients(search_term: str, page: int = 1) -> [str]:
     """
-    Effectue une recherche sur les clients de l'hôtel
+    Effectue une recherche sur les clients de l'hôtel par le nom ou le numéro de téléphone
 
     Args:
         search_term (str): terme de recherche
@@ -92,13 +91,103 @@ def search_clients(search_term: str, page: int = 1) -> [str]:
     Note : la liste retour est paginée
     """
     # Access the API to get the list of hotels
-    url = f"{HOTEL_API_URL}/clients/search/?search={search_term}&page={page}"
+    url = f"{HOTEL_API_URL}/clients/?search={search_term}&page={page}"
     response = requests.get(url, headers=get_headers())
     try:
         data = response.json()
     except:
         data = response
-    # Return the list of clients
+    return (data)
+
+@tool
+def get_client_info(id_client: str) -> [str]:
+    """
+    Retourne les informations d'un client
+
+    Args:
+        id_client (str): id technique du client
+
+    Returns:
+        id (str): id technique du client
+        name (str): nom et prénom du client
+        phone_number (str): numéro de téléphone
+        room_number (str): numéro de chambre
+        special_requests (str): demandes spéciales
+    """
+    # Access the API to get the list of hotels
+    url = f"{HOTEL_API_URL}/clients/{id_client}/"
+    response = requests.get(url, headers=get_headers())
+    try:
+        data = response.json()
+    except:
+        data = response
+    return (data)
+
+@tool
+def update_client(id_client: str, name: str=None, phone_number: str=None,
+                  room_number: str=None, special_requests: str=None) -> [str]:
+    """
+    Mise à jour d'un client
+
+    Args:
+        id_client (str): id technique du client
+        name (str): nom et prénom du client (optionnel)
+        phone_number (str): numéro de telephone (optionnel)
+        room_number (str): numéro de chambre (optionnel)
+        special_requests (str):demandes speciales (optionnel)
+    """
+    url = f"{HOTEL_API_URL}/clients/{id_client}/"
+    params = {
+        "name": name,
+        "phone_number": phone_number,
+        "room_number": room_number,
+        "special_requests": special_requests
+    }
+    filtered_params = {k: v for k, v in params.items() if v is not None}
+    response = requests.put(url, headers=get_headers(), json=filtered_params)
+    try:
+        data = response.json()
+    except:
+        data = response
+    return (data)
+
+@tool
+def delete_client(id_client: str) -> [str]:
+    """
+    Suppression d'un client
+
+    Args:
+        id_client (str): id technique du client
+    """
+    url = f"{HOTEL_API_URL}/clients/{id_client}/"
+    response = requests.delete(url, headers=get_headers())
+    try:
+        data = response.json()
+    except:
+        data = response
+    return (data)
+
+@tool
+def create_client(name: str, phone_number: str, room_number: str, special_requests: str) -> [str]:
+    """
+    Création d'un nouveau client
+
+    Args:
+        name (str): nom et prénom du client
+        phone_number (str): numéro de téléphone
+        room_number (str): numéro de chambre
+        special_requests (str): demandes spéciales
+    
+    Returns:
+        id (str): id technique du client
+    """
+    url = f"{HOTEL_API_URL}/clients/"
+    response = requests.post(url, headers=get_headers(), json={"name": name, "phone_number": phone_number,
+                             "room_number": room_number, "special_requests": special_requests})
+    try:
+        data = response.json()
+    except:
+        data = response
     return (data)
 
 @tool
@@ -166,13 +255,13 @@ def list_reservations(date_from: str = None, date_to: str = None, id_meal: str =
         data = response.json()
     except:
         data = response
-    # Return the list of restaurants
     return (data)
 
 @tool
 def make_reservation(client: str, restaurant: str, date: str, meal: str, number_of_guests: int, special_requests: str) -> [str]:
     """
     Prend une réservation dans l'un des restaurants de l'hôtel.
+    Attention à ce que le type de repas soit compatible avec l'horaire d'ouverture du restaurant
     
     Args:
         id_client (str): l'id du client
@@ -193,7 +282,6 @@ def make_reservation(client: str, restaurant: str, date: str, meal: str, number_
         data = response.json()
     except:
         data = response
-    # Return the result of the API call
     return (data)
 
 @tool
@@ -201,6 +289,7 @@ def modify_reservation(id_reservation: str, id_client: str = None, id_restaurant
                        id_meal: str = None, number_of_guests: int = None, special_requests: str = None) -> [str]:
     """
     Modifie une reservation existante
+    Attention à ce que le type de repas soit compatible avec l'horaire d'ouverture du restaurant
 
     Args:
         id_reservation (str): id technique de la reservation
@@ -233,7 +322,6 @@ def modify_reservation(id_reservation: str, id_client: str = None, id_restaurant
         data = response.json()
     except:
         data = response
-    # Return the result of the API call
     return (data)
 
 def delete_reservation(id_reservation: str) -> [str]:
@@ -253,11 +341,10 @@ def delete_reservation(id_reservation: str) -> [str]:
         data = response.json()
     except:
         data = response
-    # Return the result of the API call
     return (data)
 
-tools = [search_tool, list_restaurants, search_clients, list_meals, list_reservations, make_reservation,
-         modify_reservation, delete_reservation]
+tools = [search_tool, list_restaurants, search_clients, get_client_info, update_client, delete_client,
+        create_client, list_meals, list_reservations, make_reservation, modify_reservation, delete_reservation]
 
 # Create the agent
 memory = MemorySaver()
@@ -289,7 +376,12 @@ system_message = SystemMessage(content=
        action en lien avec la réponse que tu viens de donner.
        Lors d'un appel à un outil il est possible que tu ais un message d'erreur, par exemple en cas de
        refus d'authentification. Dans ce cas tu expliquera au client l'erreur que tu as reçue et proposeras
-       une action pour la résoudre avec son aide."""
+       une action pour la résoudre avec son aide.
+       Soit attentif quand tu prends ou modifies des réservations pour les restaurants. Les horaires d'ouverture des restaurants
+       sont à prendre en compte car certains ne permettent pas de prendre tous les types de repas. Il n'est pas non plus
+       autorisé pour un client de prendre plusieurs réservations au même moment. Dans ce cas il est souhaitable que tu
+       consulte préalablement les réservations de ce client avant d'enregistrer ou modifier une réservation et ainsi
+       éviter des conflits."""
 )
 result = agent.invoke({ "messages": [system_message] }, config=config)
 
