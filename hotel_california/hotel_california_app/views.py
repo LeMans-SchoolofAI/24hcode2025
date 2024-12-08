@@ -30,7 +30,7 @@ def reset_view(request):
         raise PermissionDenied
     if request.method == 'POST':
         reset_datas(full=True)
-        return render(request, 'huser_home.html', context = {"messages" : ["Datas reset"]})
+        return render(request, 'user_home.html', context = {"messages" : ["Datas reset"]})
     return render(request, 'admin_reset.html')
 
 # Réinitialise la configuration pour un utilisateur

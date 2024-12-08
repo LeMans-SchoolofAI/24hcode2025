@@ -1,34 +1,564 @@
 {
-    "client": [
-        {
-        "name": "Georges Dupont",
-        "phone_number": "1234567890",
-        "room_number": "101",
-        "special_requests": "None"
-        },
-        {
-        "name": "Marie Marvingt",
-        "phone_number": "9876543210",
-        "room_number": "102",
-        "special_requests": "None"
-        }
-    ],
-    "reservation": [
-        {
-          "client": "Georges Dupont",
-          "restaurant": "The Grand Dining Room",
-          "date": "2025-04-02",
-          "meal": "Lunch",
-          "number_of_guests": 2,
-          "special_requests": "Window table preferred"
-        },
-        {
-          "client": "Marie Marvingt",
-          "restaurant": "Poolside Bistro",
-          "date": "2025-04-01",
-          "meal": "Dinner",
-          "number_of_guests": 4,
-          "special_requests": "Birthday celebration"
-        }
-      ]
+  "client": [
+    {
+      "name": "Georges Dupont",
+      "phone_number": "1234567890",
+      "room_number": "101",
+      "special_requests": "None"
+    },
+    {
+      "name": "Marie Marvingt",
+      "phone_number": "9876543210",
+      "room_number": "102",
+      "special_requests": "None"
+    },
+    {
+      "name": "Pierre Lefevre",
+      "phone_number": "0123456789",
+      "room_number": "103",
+      "special_requests": "None"
+    },
+    {
+      "name": "Amélie Rousseau",
+      "phone_number": "0234567891",
+      "room_number": "104",
+      "special_requests": "None"
+    },
+    {
+      "name": "François Moreau",
+      "phone_number": "0345678912",
+      "room_number": "105",
+      "special_requests": "None"
+    },
+    {
+      "name": "Sophie Dubois",
+      "phone_number": "0456789123",
+      "room_number": "106",
+      "special_requests": "None"
+    },
+    {
+      "name": "Laurent Petit",
+      "phone_number": "0567891234",
+      "room_number": "107",
+      "special_requests": "None"
+    },
+    {
+      "name": "Claire Bertrand",
+      "phone_number": "0678912345",
+      "room_number": "108",
+      "special_requests": "None"
+    },
+    {
+      "name": "Henri Durand",
+      "phone_number": "0789123456",
+      "room_number": "109",
+      "special_requests": "None"
+    },
+    {
+      "name": "Isabelle Mercier",
+      "phone_number": "0891234567",
+      "room_number": "110",
+      "special_requests": "None"
+    },
+    {
+      "name": "Thomas Roux",
+      "phone_number": "0912345678",
+      "room_number": "111",
+      "special_requests": "None"
+    },
+    {
+      "name": "Julie Lemaire",
+      "phone_number": "0123457890",
+      "room_number": "112",
+      "special_requests": "None"
+    },
+    {
+      "name": "Nicolas Girard",
+      "phone_number": "0234568901",
+      "room_number": "113",
+      "special_requests": "None"
+    },
+    {
+      "name": "Céline Bonnet",
+      "phone_number": "0345679012",
+      "room_number": "114",
+      "special_requests": "None"
+    },
+    {
+      "name": "Philippe Martin",
+      "phone_number": "0456780123",
+      "room_number": "115",
+      "special_requests": "None"
+    },
+    {
+      "name": "Sylvie Bernard",
+      "phone_number": "0567891234",
+      "room_number": "116",
+      "special_requests": "None"
+    },
+    {
+      "name": "Michel Lambert",
+      "phone_number": "0678902345",
+      "room_number": "117",
+      "special_requests": "None"
+    }
+  ],
+  "reservation": [
+    {
+      "client": "Georges Dupont",
+      "restaurant": "Le Maison Royale",
+      "date": "2025-04-02",
+      "meal": "Lunch",
+      "number_of_guests": 2,
+      "special_requests": "Window table preferred"
+    },
+    {
+      "client": "Marie Marvingt",
+      "restaurant": "Bistrot de la piscine",
+      "date": "2025-04-01",
+      "meal": "Dinner",
+      "number_of_guests": 4,
+      "special_requests": "Birthday celebration"
+    },
+    {
+      "client": "Pierre Lefevre",
+      "restaurant": "Le Belvedere",
+      "date": "2025-04-01",
+      "meal": "Breakfast",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    },
+    {
+      "client": "Amélie Rousseau",
+      "restaurant": "Le Maison Royale",
+      "date": "2025-04-01",
+      "meal": "Lunch",
+      "number_of_guests": 3,
+      "special_requests": "None"
+    },
+    {
+      "client": "François Moreau",
+      "restaurant": "Bistrot de la piscine",
+      "date": "2025-04-01",
+      "meal": "Dinner",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    },
+    {
+      "client": "Sophie Dubois",
+      "restaurant": "Le Belvedere",
+      "date": "2025-04-02",
+      "meal": "Breakfast",
+      "number_of_guests": 4,
+      "special_requests": "None"
+    },
+    {
+      "client": "Laurent Petit",
+      "restaurant": "Bistrot de la piscine",
+      "date": "2025-04-02",
+      "meal": "Lunch",
+      "number_of_guests": 2,
+      "special_requests": "Window table"
+    },
+    {
+      "client": "Claire Bertrand",
+      "restaurant": "Le Maison Royale",
+      "date": "2025-04-02",
+      "meal": "Dinner",
+      "number_of_guests": 6,
+      "special_requests": "None"
+    },
+    {
+      "client": "Henri Durand",
+      "restaurant": "Bistrot de la piscine",
+      "date": "2025-04-03",
+      "meal": "Breakfast",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    },
+    {
+      "client": "Isabelle Mercier",
+      "restaurant": "Le Belvedere",
+      "date": "2025-04-03",
+      "meal": "Lunch",
+      "number_of_guests": 3,
+      "special_requests": "None"
+    },
+    {
+      "client": "Thomas Roux",
+      "restaurant": "Le Maison Royale",
+      "date": "2025-04-03",
+      "meal": "Dinner",
+      "number_of_guests": 4,
+      "special_requests": "Anniversary celebration"
+    },
+    {
+      "client": "Julie Lemaire",
+      "restaurant": "Bistrot de la piscine",
+      "date": "2025-04-04",
+      "meal": "Breakfast",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    },
+    {
+      "client": "Nicolas Girard",
+      "restaurant": "Le Maison Royale",
+      "date": "2025-04-04",
+      "meal": "Lunch",
+      "number_of_guests": 5,
+      "special_requests": "None"
+    },
+    {
+      "client": "Céline Bonnet",
+      "restaurant": "Le Belvedere",
+      "date": "2025-04-04",
+      "meal": "Dinner",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    },
+    {
+      "client": "Philippe Martin",
+      "restaurant": "Le Maison Royale",
+      "date": "2025-04-05",
+      "meal": "Breakfast",
+      "number_of_guests": 3,
+      "special_requests": "None"
+    },
+    {
+      "client": "Sylvie Bernard",
+      "restaurant": "Bistrot de la piscine",
+      "date": "2025-04-05",
+      "meal": "Lunch",
+      "number_of_guests": 4,
+      "special_requests": "None"
+    },
+    {
+      "client": "Michel Lambert",
+      "restaurant": "Le Belvedere",
+      "date": "2025-04-05",
+      "meal": "Dinner",
+      "number_of_guests": 2,
+      "special_requests": "Window table"
+    },
+    {
+      "client": "Pierre Lefevre",
+      "restaurant": "Le Maison Royale",
+      "date": "2025-04-06",
+      "meal": "Breakfast",
+      "number_of_guests": 4,
+      "special_requests": "None"
+    },
+    {
+      "client": "Amélie Rousseau",
+      "restaurant": "Bistrot de la piscine",
+      "date": "2025-04-06",
+      "meal": "Lunch",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    },
+    {
+      "client": "François Moreau",
+      "restaurant": "Le Belvedere",
+      "date": "2025-04-06",
+      "meal": "Dinner",
+      "number_of_guests": 6,
+      "special_requests": "Birthday celebration"
+    },
+    {
+      "client": "Sophie Dubois",
+      "restaurant": "Bistrot de la piscine",
+      "date": "2025-04-07",
+      "meal": "Breakfast",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    },
+    {
+      "client": "Laurent Petit",
+      "restaurant": "Le Maison Royale",
+      "date": "2025-04-07",
+      "meal": "Lunch",
+      "number_of_guests": 3,
+      "special_requests": "None"
+    },
+    {
+      "client": "Claire Bertrand",
+      "restaurant": "Le Belvedere",
+      "date": "2025-04-07",
+      "meal": "Dinner",
+      "number_of_guests": 4,
+      "special_requests": "None"
+    },
+    {
+      "client": "Henri Durand",
+      "restaurant": "Le Maison Royale",
+      "date": "2025-04-08",
+      "meal": "Breakfast",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    },
+    {
+      "client": "Isabelle Mercier",
+      "restaurant": "Bistrot de la piscine",
+      "date": "2025-04-08",
+      "meal": "Lunch",
+      "number_of_guests": 5,
+      "special_requests": "None"
+    },
+    {
+      "client": "Thomas Roux",
+      "restaurant": "Le Belvedere",
+      "date": "2025-04-08",
+      "meal": "Dinner",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    },
+    {
+      "client": "Julie Lemaire",
+      "restaurant": "Le Belvedere",
+      "date": "2025-04-09",
+      "meal": "Breakfast",
+      "number_of_guests": 3,
+      "special_requests": "None"
+    },
+    {
+      "client": "Nicolas Girard",
+      "restaurant": "Bistrot de la piscine",
+      "date": "2025-04-09",
+      "meal": "Lunch",
+      "number_of_guests": 4,
+      "special_requests": "Window table"
+    },
+    {
+      "client": "Céline Bonnet",
+      "restaurant": "Le Maison Royale",
+      "date": "2025-04-09",
+      "meal": "Dinner",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    },
+    {
+      "client": "Philippe Martin",
+      "restaurant": "Bistrot de la piscine",
+      "date": "2025-04-10",
+      "meal": "Breakfast",
+      "number_of_guests": 4,
+      "special_requests": "None"
+    },
+    {
+      "client": "Sylvie Bernard",
+      "restaurant": "Le Belvedere",
+      "date": "2025-04-10",
+      "meal": "Lunch",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    },
+    {
+      "client": "Michel Lambert",
+      "restaurant": "Le Maison Royale",
+      "date": "2025-04-10",
+      "meal": "Dinner",
+      "number_of_guests": 6,
+      "special_requests": "Anniversary celebration"
+    },
+    {
+      "client": "Pierre Lefevre",
+      "restaurant": "Le Belvedere",
+      "date": "2025-04-11",
+      "meal": "Breakfast",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    },
+    {
+      "client": "Amélie Rousseau",
+      "restaurant": "Le Maison Royale",
+      "date": "2025-04-11",
+      "meal": "Lunch",
+      "number_of_guests": 3,
+      "special_requests": "None"
+    },
+    {
+      "client": "François Moreau",
+      "restaurant": "Bistrot de la piscine",
+      "date": "2025-04-11",
+      "meal": "Dinner",
+      "number_of_guests": 4,
+      "special_requests": "None"
+    },
+    {
+      "client": "Sophie Dubois",
+      "restaurant": "Le Maison Royale",
+      "date": "2025-04-12",
+      "meal": "Breakfast",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    },
+    {
+      "client": "Laurent Petit",
+      "restaurant": "Le Belvedere",
+      "date": "2025-04-12",
+      "meal": "Lunch",
+      "number_of_guests": 5,
+      "special_requests": "None"
+    },
+    {
+      "client": "Claire Bertrand",
+      "restaurant": "Bistrot de la piscine",
+      "date": "2025-04-12",
+      "meal": "Dinner",
+      "number_of_guests": 2,
+      "special_requests": "Window table"
+    },
+    {
+      "client": "Henri Durand",
+      "restaurant": "Le Belvedere",
+      "date": "2025-04-13",
+      "meal": "Breakfast",
+      "number_of_guests": 3,
+      "special_requests": "None"
+    },
+    {
+      "client": "Isabelle Mercier",
+      "restaurant": "Le Maison Royale",
+      "date": "2025-04-13",
+      "meal": "Lunch",
+      "number_of_guests": 4,
+      "special_requests": "None"
+    },
+    {
+      "client": "Thomas Roux",
+      "restaurant": "Bistrot de la piscine",
+      "date": "2025-04-13",
+      "meal": "Dinner",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    },
+    {
+      "client": "Julie Lemaire",
+      "restaurant": "Le Maison Royale",
+      "date": "2025-04-14",
+      "meal": "Breakfast",
+      "number_of_guests": 4,
+      "special_requests": "None"
+    },
+    {
+      "client": "Nicolas Girard",
+      "restaurant": "Le Belvedere",
+      "date": "2025-04-14",
+      "meal": "Lunch",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    },
+    {
+      "client": "Céline Bonnet",
+      "restaurant": "Bistrot de la piscine",
+      "date": "2025-04-14",
+      "meal": "Dinner",
+      "number_of_guests": 6,
+      "special_requests": "Birthday celebration"
+    },
+    {
+      "client": "Philippe Martin",
+      "restaurant": "Le Belvedere",
+      "date": "2025-04-15",
+      "meal": "Breakfast",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    },
+    {
+      "client": "Sylvie Bernard",
+      "restaurant": "Le Maison Royale",
+      "date": "2025-04-15",
+      "meal": "Lunch",
+      "number_of_guests": 3,
+      "special_requests": "None"
+    },
+    {
+      "client": "Michel Lambert",
+      "restaurant": "Bistrot de la piscine",
+      "date": "2025-04-15",
+      "meal": "Dinner",
+      "number_of_guests": 4,
+      "special_requests": "None"
+    },
+    {
+      "client": "Pierre Lefevre",
+      "restaurant": "Bistrot de la piscine",
+      "date": "2025-04-16",
+      "meal": "Breakfast",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    },
+    {
+      "client": "Amélie Rousseau",
+      "restaurant": "Le Belvedere",
+      "date": "2025-04-16",
+      "meal": "Lunch",
+      "number_of_guests": 5,
+      "special_requests": "Window table"
+    },
+    {
+      "client": "François Moreau",
+      "restaurant": "Le Maison Royale",
+      "date": "2025-04-16",
+      "meal": "Dinner",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    },
+    {
+      "client": "Sophie Dubois",
+      "restaurant": "Le Belvedere",
+      "date": "2025-04-17",
+      "meal": "Breakfast",
+      "number_of_guests": 3,
+      "special_requests": "None"
+    },
+    {
+      "client": "Laurent Petit",
+      "restaurant": "Bistrot de la piscine",
+      "date": "2025-04-17",
+      "meal": "Lunch",
+      "number_of_guests": 4,
+      "special_requests": "None"
+    },
+    {
+      "client": "Claire Bertrand",
+      "restaurant": "Le Maison Royale",
+      "date": "2025-04-17",
+      "meal": "Dinner",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    },
+    {
+      "client": "Henri Durand",
+      "restaurant": "Le Maison Royale",
+      "date": "2025-04-18",
+      "meal": "Breakfast",
+      "number_of_guests": 4,
+      "special_requests": "None"
+    },
+    {
+      "client": "Isabelle Mercier",
+      "restaurant": "Le Belvedere",
+      "date": "2025-04-18",
+      "meal": "Lunch",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    },
+    {
+      "client": "Thomas Roux",
+      "restaurant": "Bistrot de la piscine",
+      "date": "2025-04-18",
+      "meal": "Dinner",
+      "number_of_guests": 6,
+      "special_requests": "Anniversary celebration"
+    },
+    {
+      "client": "Julie Lemaire",
+      "restaurant": "Le Belvedere",
+      "date": "2025-04-19",
+      "meal": "Breakfast",
+      "number_of_guests": 2,
+      "special_requests": "None"
+    }
+  ]
 }

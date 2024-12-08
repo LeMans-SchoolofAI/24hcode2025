@@ -1,27 +1,27 @@
 {
     "restaurant": [
         {
-            "name": "The Grand Dining Room",
-            "description": "Our signature fine dining restaurant featuring international cuisine",
+            "name": "Le Maison Royale",
+            "description": "Une expérience gastronomique raffinée mettant en vedette les saveurs de la cuisine française contemporaine",
             "capacity": 80,
             "opening_hours": "07:00-23:00",
-            "location": "Main Floor",
+            "location": "Rez-de-chaussée",
             "is_active": true
           },
           {
-            "name": "Poolside Bistro",
-            "description": "Casual dining with Mediterranean flair",
+            "name": "Bistrot de la piscine",
+            "description": "Une cuisine décontractée aux saveurs méditerranéennes",
             "capacity": 40,
             "opening_hours": "11:00-22:00",
-            "location": "Pool Deck",
+            "location": "Terrasse de la piscine",
             "is_active": true
           },
           {
-            "name": "Sky Lounge",
-            "description": "Rooftop dining with panoramic views",
+            "name": "Le Belvedere",
+            "description": "Une table d'exception avec vue panoramique sur la ville",
             "capacity": 60,
             "opening_hours": "16:00-23:00",
-            "location": "15th Floor",
+            "location": "13ème étage",
             "is_active": true
           }
     ],
