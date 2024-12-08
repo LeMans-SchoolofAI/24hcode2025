@@ -25,6 +25,16 @@ class RestaurantListAPIView(generics.ListAPIView):
 ###################################
 # Clients
 ###################################
+class WatsonSearchFilter(filters.SearchFilter):
+    search_param = 'search'  # Définir le paramètre de recherche
+    
+    def filter_queryset(self, request, queryset, view):
+        search_term = request.query_params.get(self.search_param, '')
+        if not search_term:
+            return Client.objects.none()
+        
+        return watson.filter(queryset, search_term)
+
 @extend_schema(
     description="Recherche des clients par nom ou numéro de téléphone",
     parameters=[
@@ -41,21 +51,11 @@ class RestaurantListAPIView(generics.ListAPIView):
 class ClientSearchAPIView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = ClientSerializer
+    filter_backends = [WatsonSearchFilter]
+    search_fields = ['search_fields']
 
     def get_queryset(self):
-        search_term = self.request.query_params.get('search', '')
-        
-        # Retourne une queryset vide si pas de terme de recherche
-        if not search_term:
-            return Client.objects.none()
-        
-        # Effectue la recherche avec watson
-        search_results = watson.filter(
-            Client.objects.filter(user=self.request.user),
-            search_term
-        )
-        
-        return search_results
+        return Client.objects.filter(user=self.request.user)
 
 @extend_schema(
     description="Récupère les détails d'un client",
