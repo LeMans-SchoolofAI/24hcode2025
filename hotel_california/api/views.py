@@ -55,6 +55,9 @@ class ClientAPIView(generics.ListCreateAPIView):
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
     
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
     @extend_schema(
         summary="Créer un client",
         description="Créer un client",
