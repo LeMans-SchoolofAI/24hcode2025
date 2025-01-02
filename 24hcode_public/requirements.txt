@@ -9,6 +9,7 @@ backoff==2.2.1
 certifi==2024.8.30
 charset-normalizer==3.4.0
 click==8.1.7
+coqui-tts==0.24.3
 dataclasses-json==0.6.7
 Django==5.1.2
 djangorestframework==3.15.2

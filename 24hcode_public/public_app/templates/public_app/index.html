@@ -26,6 +26,11 @@
             {% endfor %}
         </div>
 
+        <audio controls autoplay>
+            <source src="{{ audio_url }}" type="audio/wav">
+            Votre navigateur ne supporte pas la balise audio.
+        </audio>
+
         <h2>Enregistrer et Transcrire l'Audio</h2>
         <form id="transcribeForm" method="post" action="/transcribe/" enctype="multipart/form-data">
             {% csrf_token %}
@@ -47,6 +52,13 @@
     <script>
         let mediaRecorder;
         let audioChunks = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var audioPlayer = document.getElementById('audioPlayer');
+            audioPlayer.play().catch(function(error) {
+                console.log('Auto-play was prevented:', error);
+            });
+        });
 
         async function startRecording() {
             audioChunks = []; // Reset the audio chunks each record

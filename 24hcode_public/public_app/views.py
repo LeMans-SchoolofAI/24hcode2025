@@ -3,17 +3,24 @@ from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser
-import whisper, os, ast
+import whisper, os, ast, torch
 from tempfile import NamedTemporaryFile
 import warnings
 from .models import Conversation, User_input, Ai_response
 from .concierge import ask_AI
+from TTS.api import TTS
 
 # Ignorer les FutureWarnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.simplefilter(action='ignore', category=UserWarning)
 
 model_whisper = whisper.load_model("base")
+
+MEDIA_PATH = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))+ "/media/"  # just "/media" si docker
+device = "cuda" if torch.cuda.is_available() else "cpu"
+tts = TTS(model_name="tts_models/multilingual/multi-dataset/your_tts", progress_bar=True).to(device)
+
+
 
 # Util function
 def get_context(request):
@@ -24,7 +31,8 @@ def get_context(request):
         "conversation_id": request.POST.get("conversation_id"),
         "user_inputs": user_inputs,
         "ai_responses": ai_responses,
-        "indices": indices
+        "indices": indices,
+        "audio_url": request.POST.get("audio_url")
     }
     return context
 
@@ -41,11 +49,20 @@ def start_new_conversation(request):
     conversation_id = Conversation.objects.create().id
     ai_result = ask_AI(conversation_id, reset=True)
     ai_response = Ai_response.objects.create(position=0, response=ai_result["message"], conversation_id=conversation_id)
+    
+    # Text2speech
+    audio_result_path = f"{MEDIA_PATH}conv_0_0.wav"
+    if not os.path.exists(audio_result_path):
+        tts.tts_to_file(ai_result["message"], 
+                        speaker_wav=MEDIA_PATH+"pierre.wav", language="fr-fr", 
+                        file_path=audio_result_path)
+    
     context = {
         "conversation_id": conversation_id,
         "user_inputs": [],
         "ai_responses": [ai_response.response],
-        "indices": [0]
+        "indices": [0],
+        "audio_url": f"/media/conv_0_0.wav"
     }
     # Render a template with a form that auto-submits via JavaScript
     return render(request, 'public_app/redirect_post.html', context=context)
@@ -86,11 +103,20 @@ def audio_transcription_view(request):
         if ai_result.get("stop"):
             return JsonResponse({"error": ai_result["message"]}, status=400)
         ai_response = Ai_response.objects.create(position=conversation.ai_response_set.count(), response=ai_result["message"], conversation=conversation)
-            
+        
+        
+        # Text2speech
+        audio_result_path = f"{MEDIA_PATH}conv_{conversation_id}_{conversation.user_input_set.count()}.wav"
+        tts.tts_to_file(ai_result["message"], 
+                        speaker_wav=MEDIA_PATH+"pierre.wav", language="fr-fr", 
+                        file_path=audio_result_path)
+        
+        
         context.update({
             "user_inputs": [ui.message for ui in conversation.user_input_set.all()],
             "ai_responses": [ar.response for ar in conversation.ai_response_set.all()],
-            "indices": list(range(conversation.user_input_set.count()))
+            "indices": list(range(conversation.user_input_set.count())),
+            "audio_url": f"/media/conv_{conversation_id}_{conversation.user_input_set.count()}.wav"
         })
         return render(request, 'public_app/redirect_post.html', context=context)
     else: # Not used, just to secure method by get

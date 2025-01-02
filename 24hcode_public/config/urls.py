@@ -16,9 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('public_app.urls')),
-    path('', include('hotel_california_app.urls')),
+    # path('', include('hotel_california_app.urls')),
 ]
+
+# Better with nginx but flemme you know, quick and dirty
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

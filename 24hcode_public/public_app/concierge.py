@@ -168,14 +168,16 @@ def ask_AI(conversation_id, user_question=None, depth=0, reset=False):
             Les outils que tu utilises peuvent te donner beaucoup d'informations mais 
             tu n'es pas obligé de tout utiliser.
             Sois bref dans tes réponses, répond sans mise en forme car ta réponse sera lue par un générateur
-            de voix. En fin de réponse demande au visiteur s'il a besoin d'autre chose ou propose lui une
+            de voix. Ne met aucun nombre écrit avec des chiffres, tu peux seulement en lettres. Par exemple 24 devient vingt-quatre.
+            Pareil pour les abréviations, par exemple 24h devient vingt-quatre heures.
+            En fin de réponse demande au visiteur s'il a besoin d'autre chose ou propose lui une
             action en lien avec la réponse que tu viens de donner.
             Lors d'un appel à un outil il est possible que tu ais un message d'erreur, par exemple en cas de
             refus d'authentification. Dans ce cas tu expliquera au visiteur que tu as des soucis d'accès au
             système d'information."""
         )
         result = agent.invoke({ "messages": [system_message] }, config=config)
-        return {'stop': False, "message": "Bienvenue aux 24h du code. Comment puis-je vous aider ?"}
+        return {'stop': False, "message": "Bienvenue aux vingt-quatre heures du code. Comment puis-je vous aider ?"}
     
     else:
         result = agent.invoke({ "messages": [HumanMessage(content=user_question)] }, config=config)
