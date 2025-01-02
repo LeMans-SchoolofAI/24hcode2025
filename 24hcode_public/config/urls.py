@@ -23,7 +23,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('public_app.urls')),
-    # path('', include('hotel_california_app.urls')),
 ]
 
 # Better with nginx but flemme you know, quick and dirty
