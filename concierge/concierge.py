@@ -50,7 +50,7 @@ def create_llm():
         llm = ChatMistralAI(model="mistral-large-latest", temperature=0, max_retries=2, )
     elif provider == "Google":
         key_file = os.getenv("GOOGLE_API_KEY")
-        llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=key_file, temperature=0, max_retries=2)
+        llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash-exp", google_api_key=key_file, temperature=0, max_retries=2)
     return llm
 
 def get_headers():
