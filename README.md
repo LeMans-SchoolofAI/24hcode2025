@@ -20,6 +20,11 @@ Attention : pour le premier lancement il faut obligatoirement commencer par dock
 ## Hotel California
 Système de gestion de l'hotel California pour les participants du sujet.
 
+### Deployment (google)
+`gcloud run deploy app --port 8000 --source . --env-vars-file .env.yaml --region europe-west9`  
+Attention : supprimer toute instance sqlite3 locale avant de déployer, puis lancer le reset all datas dans l'admin pour recréer les données 
+Il faut créer une copie du .env en .env.yaml pour les variables d'environnement
+
 ### Authentification
 Exemple d'usage en curl : `curl -H "Authorization: Token <APIKEY>" http://<HOST>/api/`
 

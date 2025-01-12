@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-acl@sxb2(zka$z1u1_kwsih^z2_j+mangzh*!2$bdimb*%%d@9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', ".europe-west9.run.app"]
 
 # Application definition
 
@@ -162,4 +162,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000']
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000', 'https://*.europe-west9.run.app']

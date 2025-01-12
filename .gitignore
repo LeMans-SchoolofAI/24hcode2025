@@ -3,6 +3,7 @@ hotel_california/static/
 hotel_california/media/
 24hcode_public/static/
 24hcode_public/media/
+.env.yaml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
