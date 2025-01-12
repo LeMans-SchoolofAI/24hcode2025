@@ -264,6 +264,17 @@ class ReservationDetailView(generics.GenericAPIView,
         return self.destroy(request, *args, **kwargs)
     
     @extend_schema(
+        summary="Modifier partiellement une reservation",
+        description="Modifie partiellement les informations d'une reservation",
+        parameters=[],
+        responses={
+            status.HTTP_200_OK: ReservationSerializer
+        }
+    )
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+    
+    @extend_schema(
         summary="Détailler une reservation",
         description="Retourne les informations concernant une reservation",
         parameters=[],
