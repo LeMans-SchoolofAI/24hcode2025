@@ -16,9 +16,9 @@ class APIRootView(APIView):
             'restaurants': reverse('api:restaurant-list', request=request),
             'clients': reverse('api:client', request=request),
             'clients-detail': reverse('api:client-detail', request=request, kwargs={'id': 1}),
-            'meals': reverse('api:meal-list', request=request),
             'reservations': reverse('api:reservation', request=request),
             'reservation-detail': reverse('api:reservation-detail', request=request, kwargs={'id': 1}),
+            'spas': reverse('api:spa-list', request=request),
         })
 
 urlpatterns = [

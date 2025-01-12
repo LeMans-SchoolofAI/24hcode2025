@@ -4,6 +4,7 @@ import uuid
 
 # Load the langchain tools
 from langchain_mistralai.chat_models import ChatMistralAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.tools import tool
 from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -42,6 +43,15 @@ else:
 
 # Define the tools
 search_tool = DuckDuckGoSearchRun()
+
+def create_llm():
+    provider = os.getenv("LLM_PROVIDER", "Mistral")
+    if provider == "Mistral":
+        llm = ChatMistralAI(model="mistral-large-latest", temperature=0, max_retries=2, )
+    elif provider == "Google":
+        key_file = os.getenv("GOOGLE_API_KEY")
+        llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=key_file, temperature=0, max_retries=2)
+    return llm
 
 def get_headers():
     return {"Authorization": f"Token {HOTEL_API_TOKEN}"}
@@ -346,11 +356,6 @@ def delete_reservation(id_reservation: str) -> [str]:
 tools = [search_tool, list_restaurants, search_clients, get_client_info, update_client, delete_client,
         create_client, list_meals, list_reservations, make_reservation, modify_reservation, delete_reservation]
 
-# Create the agent
-memory = MemorySaver()
-llm = ChatMistralAI(model="mistral-large-latest", temperature=0, max_retries=2)
-agent = create_react_agent(llm, tools, checkpointer=memory)
-
 # Use the agent
 # Define a thread_id to track the conversation
 config.update({"configurable": {"thread_id": "abc123"}})
@@ -383,7 +388,10 @@ system_message = SystemMessage(content=
        consulte préalablement les réservations de ce client avant d'enregistrer ou modifier une réservation et ainsi
        éviter des conflits."""
 )
-result = agent.invoke({ "messages": [system_message] }, config=config)
+# Create the agent, including the system message
+memory = MemorySaver()
+llm = create_llm()
+agent = create_react_agent(llm, tools, state_modifier=system_message, checkpointer=memory)
 
 # Ask the user what he wants
 question = input(f"{RED}Bienvenue dans l'hôtel California ! Je suis votre concierge virtuel. Comment puis-je vous aider ?\n{GREEN}")
