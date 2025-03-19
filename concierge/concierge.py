@@ -25,19 +25,23 @@ GREEN = "\033[32m"
 RESET = "\033[0m"
 
 # Initialize Langfuse handler
-DEBUG_LANGUSE = True
+DEBUG_LANGFUSE = True
 # Generate a random session ID
 session_id = str(uuid.uuid4())
-if DEBUG_LANGUSE:
-    from langfuse.callback import CallbackHandler
-    langfuse_handler = CallbackHandler(
-        secret_key=os.getenv("LANG_FUSE_SECRET_KEY"),
-        public_key=os.getenv("LANG_FUSE_PUBLIC_KEY"),
-        host=os.getenv("LANG_FUSE_HOST"),
-        session_id=session_id
-    )
-    langfuse_handler.auth_check()
-    config = {"callbacks": [langfuse_handler]}
+if DEBUG_LANGFUSE:
+    try:
+        from langfuse.callback import CallbackHandler
+        langfuse_handler = CallbackHandler(
+            secret_key=os.getenv("LANG_FUSE_SECRET_KEY"),
+            public_key=os.getenv("LANG_FUSE_PUBLIC_KEY"),
+            host=os.getenv("LANG_FUSE_HOST"),
+            session_id=session_id
+        )
+        langfuse_handler.auth_check()
+        config = {"callbacks": [langfuse_handler]}
+    except Exception as e:
+        print(f"{RED}Error initializing Langfuse handler: {e}{RESET}")
+        config = {}
 else:
     config = {}
 
