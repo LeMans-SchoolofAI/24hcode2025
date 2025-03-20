@@ -7,6 +7,7 @@ from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_core.messages import HumanMessage, SystemMessage
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.prebuilt import create_react_agent
+from .datas_public import dict_sujets, dict_orgas_sujets, dict_lieu
 
 # Get the environment variables
 from dotenv import load_dotenv
@@ -31,26 +32,8 @@ else:
 # Define the tools
 search_tool = DuckDuckGoSearchRun()
 
-@tool
-def dict_sujets() -> dict:
-    """
-    Retourne le dictionnaire des sujets des 24h du code 2025 avec le nom des porteurs en clé et le sujet en valeur
-    """
-    
-    # Bouchon de test
-    return {"HAUM":"lorep ipsum","Sopra Steria":"lorem fepeoi","Le Mans School of AI":"lorem opazdazdazdyc","ST Microelectronics":"patati patata"}
-    # # Access the API to get the list of hotels
-    # url = f"{HOTEL_API_URL}/restaurants"
-    # headers = {"Authorization": f"{HOTEL_API_TOKEN}"}
-    # response = requests.get(url, headers=headers)
-    # if response.status_code != 200:
-    #     return ("Accès refusé par l'API")
-    # data = response.json()
-    # # Return the list of hotels
-    # return (data)
 
-
-tools = [search_tool, dict_sujets]
+tools = [search_tool, dict_sujets, dict_orgas_sujets, dict_lieu]
 
 
 # Create the agent
