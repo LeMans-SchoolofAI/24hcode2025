@@ -89,6 +89,19 @@
         "password": "frozen-snowless-clunky",
         "email": "team15@les24hducode.fr",
         "apikey": "0luXztX1aBwLoefmkKx5xl6msvWCBmyw"
+    },
+    {
+        "username": "team16",
+        "password": "pomme-cassis-fraise",
+        "email": "team16@les24hducode.fr",
+        "apikey": "98epcX1aBwLoefmkKx5xdcmsvW10des"
+    }
+    ,
+    {
+        "username": "team17",
+        "password": "diabolo-gomme-cokkie",
+        "email": "team17@les24hducode.fr",
+        "apikey": "dzd987sze1fl987sset2fzef789"
     }
     ]
 }
