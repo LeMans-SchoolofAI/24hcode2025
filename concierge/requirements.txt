@@ -3,4 +3,7 @@ langchain-community==0.3.8
 langchain-core==0.3.21
 langchain-mistralai==0.2.2
 langgraph-checkpoint==2.0.5
+langchain_google_genai-2.1.1
+duckduckgo-search-7.5.3
+langfuse-2.60.1
 python-dotenv==1.0.1

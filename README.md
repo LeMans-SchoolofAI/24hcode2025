@@ -21,7 +21,7 @@ Attention : pour le premier lancement il faut obligatoirement commencer par dock
 Système de gestion de l'hotel California pour les participants du sujet.
 
 ### Deployment (google)
-`gcloud run deploy app --port 8000 --source . --env-vars-file .env.yaml --region europe-west9`  
+`gcloud run deploy app --port 8000 --source . --env-vars-file .env.yaml --region europe-west9 --project school-of-ai-447610`  
 Attention : supprimer toute instance sqlite3 locale avant de déployer, puis lancer le reset all datas dans l'admin pour recréer les données 
 Il faut créer une copie du .env en .env.yaml pour les variables d'environnement
 
