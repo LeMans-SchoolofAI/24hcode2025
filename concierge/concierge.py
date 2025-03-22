@@ -1,6 +1,7 @@
 import os
 import requests
 import uuid
+import datetime
 
 # Load the langchain tools
 from langchain_mistralai.chat_models import ChatMistralAI
@@ -365,8 +366,10 @@ tools = [search_tool, list_restaurants, search_clients, get_client_info, update_
 config.update({"configurable": {"thread_id": "abc123"}})
 
 # Define the system message and give the agent some context
+# Get the date with the day of the week, the month and the year
+date = datetime.datetime.now().strftime("%A %B, %d, %Y")
 system_message = SystemMessage(content=
-    """Tu es un concierge virtuel pour l'hôtel California. L'hôtel est situé dans la ville du Mans, en France.
+    f"""Tu es un concierge virtuel pour l'hôtel California. L'hôtel est situé dans la ville du Mans, en France.
        Tu as des outils à ta disposition pour consulter les données de l'hôtel et agir avec le système de l'hôtel.
        Quand un client demande une information, tu lui donne la meilleure information disponible.
        Lorsque tu discutes avec le client tu n'utilses pas l'id des enregistrements de la base de données mais tu
@@ -390,7 +393,8 @@ system_message = SystemMessage(content=
        sont à prendre en compte car certains ne permettent pas de prendre tous les types de repas. Il n'est pas non plus
        autorisé pour un client de prendre plusieurs réservations au même moment. Dans ce cas il est souhaitable que tu
        consulte préalablement les réservations de ce client avant d'enregistrer ou modifier une réservation et ainsi
-       éviter des conflits."""
+       éviter des conflits.
+       Aujourd'hui nous sommes le {date}."""
 )
 # Create the agent, including the system message
 memory = MemorySaver()
