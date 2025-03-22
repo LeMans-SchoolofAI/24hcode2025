@@ -58,6 +58,8 @@ Créer un fichier `.env` dans le répertoire `concierge` et y ajouter les variab
 
 ### Usage
 - `python concierge.py` pour lancer l'application
+- `python -m streamlit run concierge_st.py` pour lancer l'application avec Streamlit
+- `python -m streamlit run concierge_st_kokoro.py` pour lancer l'application avec Streamlit avec kokoro
 
 ## FAQ
 
