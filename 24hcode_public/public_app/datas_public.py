@@ -5,10 +5,10 @@ def dict_sujets() -> dict:
     """
     Retourne le dictionnaire des sujets des 24h du code 2025 avec le nom des porteurs en clé et le sujet en valeur
     """
-    
+    print("DEBUG: dict_sujets")
     x = {
-        "HAUM":"Le sujet du HAUM cette année porte sur la fabrication d'un robot autonome",
-        "Sopra Steria":"Sopra Steria propose un sujet sur la création de ....",
+        "HAUM":"Le sujet du HAUM cette année porte sur la fabrication d'un robot autonome et de la résolution d'un labyrinthe",
+        "Sopra Steria":"Sopra Steria propose un sujet sur la création du ville numérique avec gestion des ressources et de la pollution",
         "Le Mans School of AI":"Le Mans School of AI propose un sujet sur l'IA, avec la création d'un agent conversationnel jouant le rôle d'un majordome d'hôtel",
         "ST Microelectronics":"ST Microelectronics propose un sujet sur l'innovation avec leur matériel électronique, sur le thème de qui veut être mon associé"
     }
@@ -20,7 +20,7 @@ def dict_orgas_sujets() -> dict:
     """
     Retourne le dictionnaire des organisateurs des sujets des "24h du code" en clé ainsi qu'une description de chaque organisateur en valeur
     """
-
+    print("DEBUG: dict_orgas_sujets")
     x = {
         "HAUM":"""Le HAUM est un hackerspace situé au Mans, fondé en 2011, qui promeut la culture du Do It Yourself et du libre.
             Il propose à ses membres un accès à divers outils et machines pour réaliser des projets collaboratifs
@@ -42,7 +42,7 @@ def dict_lieu() -> dict:
     """
     Retourne le dictionnaire des lieux des "24h du code" en clé ainsi que l'emplacement de chaque lieu en valeur
     """
-
+    print("DEBUG: dict_lieu")
     x = {
         "Le Mans School of AI":"Situé à gauche de l'escalier principal quand on est en face",
         "Sopra Steria":"Situé à droite de l'escalier principal quand on est en face",
@@ -62,7 +62,7 @@ def dict_programme_public() -> dict :
     """
     Retourne le dictionnaire des activités du programme public des 24h du code 2025, les horaires, les lieux et diverses informations
     """
-    
+    print("DEBUG: dict_programme_public")
     x = {
         "Atelier à destination des enfants #BOT | Proposé par le Conseil départemental de la Sarthe | A la CCI Le Mans Sarthe":
             """Initiation à la programmation avec les robots Mbots ! - dès 12 ans
@@ -141,4 +141,25 @@ def dict_programme_public() -> dict :
             Horaires : de 15h à 17h"""
     }
     return x
-        
+    
+    
+@tool
+def str_histoire() -> str:
+    """
+    Retourne une chaine de caractère contenant l'histoire des 24h du code
+    """
+    print("DEBUG: str_histoire")
+    x = """Les 24h du code sont un événement annuel organisé par la chambre de commerce et d'industrie du Mans et de la Sarthe ainsi 
+    que l'ENSIM, l'école d'ingénieurs du Mans et différents porteurs de sujets. Cet événement a pour but de promouvoir la programmation
+    informatique et les métiers du numérique en général. Les participants ont 24 heures pour réaliser un projet en équipe, en utilisant
+    les outils et les technologies de leur choix sur des sujets imposés au choix. Les projets sont ensuite présentés devant un jury de professionnels 
+    qui décerne des prix. Cet événement est ouvert à tous les développeurs, en deux catégories, les étudiants et les professionnels.
+    Les 24h du code sont également l'occasion de participer à des ateliers, des conférences et des animations pour le public autour de la programmation
+    informatique et des nouvelles technologies.
+    
+    Les premières éditions sont nées il y a plus de 13 ans, organisées par l'ENSIM, avec un problème d'organisation des cours d'informatique à l'école.
+    Un enseignant s'est alors dit, comment faire tenir 24 heures de cours et de travaux pratiques en si peu de temps. C'est ainsi que l'idée des 24h du code
+    est née. Les premières éditions étaient réservées aux étudiants de l'école, puis l'événement s'est ouvert à d'autres écoles et aux professionnels.
+    """
+    return x
+

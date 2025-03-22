@@ -7,7 +7,9 @@ from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_core.messages import HumanMessage, SystemMessage
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.prebuilt import create_react_agent
-from .datas_public import dict_sujets, dict_orgas_sujets, dict_lieu, str_histoire
+from .datas_public import dict_sujets, dict_orgas_sujets, dict_lieu
+
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 # Get the environment variables
 from dotenv import load_dotenv
@@ -33,7 +35,7 @@ else:
 search_tool = DuckDuckGoSearchRun()
 
 
-tools = [search_tool, dict_sujets, dict_orgas_sujets, dict_lieu, str_histoire]
+tools = [search_tool, dict_sujets, dict_orgas_sujets, dict_lieu]
 
 
 # Create the agent
@@ -124,7 +126,7 @@ def reset_agent():
     # Create the agent
     memory = MemorySaver()
     # CHOOSE ONE HERE, API keys are in the dotenv
-    llm = ChatMistralAI(model="mistral-large-latest", temperature=0, max_retries=1)
+    llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0, max_retries=1)
     
     agent = create_react_agent(llm, tools, checkpointer=memory)
     return agent, config
