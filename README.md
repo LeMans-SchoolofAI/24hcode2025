@@ -29,7 +29,7 @@ Dans le répertoire [./24hcode_public](./24hcode_public/README.md), vous trouver
 | 1er | 95 points | Kuz | à compléter | à compléter |
 | 2e | 80 points | Les Electrons Voyageurs | à compléter | à compléter |
 | 3e | 68 points | Skibidi-Rizzler | à compléter | à compléter |
-| 4e | 56 points | Et pourquoi pas | à compléter | à compléter |
+| 4e | 56 points | Et pourquoi pas | à compléter | [Video](./demos_participants/Demo_et_pourquoi_pas.webm) |
 | 5e | 55 points | Raph2 | à compléter | à compléter |
 | 6e | 43 points | T2 Gatitos | à compléter | à compléter |
 | 7e | 38 points | Les Rhododendrons | à compléter | à compléter |
