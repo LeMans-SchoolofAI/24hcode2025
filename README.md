@@ -26,8 +26,8 @@ Dans le répertoire [./24hcode_public](./24hcode_public/README.md), vous trouver
 
 | Résultat | Note | Equipe | Lien vers le code | Lien vers la demo |
 | - | - | - | - | - |
-| 1er | 95 points | Kuz | à compléter | à compléter |
-| 2e | 80 points | Les Electrons Voyageurs | à compléter | à compléter |
+| 1er | 95 points | Kuz | [Code](https://github.com/roseratugo/KUZ-24HDUCODE2025) | [Vidéo](https://www.youtube.com/watch?v=IAd7BZcSHbs) |
+| 2e | 80 points | Les Electrons Voyageurs | [Code](https://github.com/Gjuuuy/24hDuCode_2025) | à compléter |
 | 3e | 68 points | Skibidi-Rizzler | à compléter | à compléter |
 | 4e | 56 points | Et pourquoi pas | [Front](https://github.com/LumenLumen/24h_Front), [Back](https://github.com/DamiBoul/24h_AgentHotel) | [Video](./demos_participants/Demo_et_pourquoi_pas.webm) |
 | 5e | 55 points | Raph2 | à compléter | à compléter |
