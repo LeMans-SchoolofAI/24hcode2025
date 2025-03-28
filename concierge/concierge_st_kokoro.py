@@ -64,7 +64,7 @@ def get_headers():
     return {"Authorization": f"Token {HOTEL_API_TOKEN}"}
 
 @tool
-def list_restaurants(page: int = 1) -> [str]:
+def list_restaurants(page: int = 1) -> list[str]:
     """
     Retourne la liste des restaurants de l'hôtel
     
@@ -91,7 +91,7 @@ def list_restaurants(page: int = 1) -> [str]:
     return (data)
 
 @tool
-def search_clients(search_term: str, page: int = 1) -> [str]:
+def search_clients(search_term: str, page: int = 1) -> list[str]:
     """
     Effectue une recherche sur les clients de l'hôtel par le nom ou le numéro de téléphone
 
@@ -117,7 +117,7 @@ def search_clients(search_term: str, page: int = 1) -> [str]:
     return (data)
 
 @tool
-def get_client_info(id_client: str) -> [str]:
+def get_client_info(id_client: str) -> list[str]:
     """
     Retourne les informations d'un client
 
@@ -142,7 +142,7 @@ def get_client_info(id_client: str) -> [str]:
 
 @tool
 def update_client(id_client: str, name: str=None, phone_number: str=None,
-                  room_number: str=None, special_requests: str=None) -> [str]:
+                  room_number: str=None, special_requests: str=None) -> list[str]:
     """
     Mise à jour d'un client
 
@@ -169,7 +169,7 @@ def update_client(id_client: str, name: str=None, phone_number: str=None,
     return (data)
 
 @tool
-def delete_client(id_client: str) -> [str]:
+def delete_client(id_client: str) -> list[str]:
     """
     Suppression d'un client
 
@@ -185,7 +185,7 @@ def delete_client(id_client: str) -> [str]:
     return (data)
 
 @tool
-def create_client(name: str, phone_number: str, room_number: str, special_requests: str) -> [str]:
+def create_client(name: str, phone_number: str, room_number: str, special_requests: str) -> list[str]:
     """
     Création d'un nouveau client
 
@@ -208,7 +208,7 @@ def create_client(name: str, phone_number: str, room_number: str, special_reques
     return (data)
 
 @tool
-def list_meals(page: int = 1) -> [str]:
+def list_meals(page: int = 1) -> list[str]:
     """
     Retourne la liste des types de repas proposés dans l'hôtel
     
@@ -231,7 +231,7 @@ def list_meals(page: int = 1) -> [str]:
 
 @tool
 def list_reservations(date_from: str = None, date_to: str = None, id_meal: str = None,
-                      id_restaurant: str = None, id_client: str = None, page: int = 1) -> [str]:
+                      id_restaurant: str = None, id_client: str = None, page: int = 1) -> list[str]:
     """
     Retourne la liste des reservations qui répondent aux critères
     
@@ -275,7 +275,8 @@ def list_reservations(date_from: str = None, date_to: str = None, id_meal: str =
     return (data)
 
 @tool
-def make_reservation(client: str, restaurant: str, date: str, meal: str, number_of_guests: int, special_requests: str) -> [str]:
+def make_reservation(client: str, restaurant: str, date: str, meal: str,
+                     number_of_guests: int, special_requests: str) -> list[str]:
     """
     Prend une réservation dans l'un des restaurants de l'hôtel.
     Attention à ce que le type de repas soit compatible avec l'horaire d'ouverture du restaurant
@@ -294,7 +295,8 @@ def make_reservation(client: str, restaurant: str, date: str, meal: str, number_
     # Access the API to get the list of hotels
     url = f"{HOTEL_API_URL}/reservations/"
     response = requests.post(url, headers=get_headers(), json={"client": client, "restaurant": restaurant,
-                             "date": date, "meal": meal, "number_of_guests": number_of_guests, "special_requests": special_requests})
+                             "date": date, "meal": meal, "number_of_guests": number_of_guests,
+                             "special_requests": special_requests})
     try:
         data = response.json()
     except:
@@ -303,7 +305,7 @@ def make_reservation(client: str, restaurant: str, date: str, meal: str, number_
 
 @tool
 def modify_reservation(id_reservation: str, id_client: str = None, id_restaurant: str = None, date: str = None,
-                       id_meal: str = None, number_of_guests: int = None, special_requests: str = None) -> [str]:
+                       id_meal: str = None, number_of_guests: int = None, special_requests: str = None) -> list[str]:
     """
     Modifie une reservation existante
     Attention à ce que le type de repas soit compatible avec l'horaire d'ouverture du restaurant
@@ -342,7 +344,7 @@ def modify_reservation(id_reservation: str, id_client: str = None, id_restaurant
     return (data)
 
 @tool
-def delete_reservation(id_reservation: str) -> [str]:
+def delete_reservation(id_reservation: str) -> list[str]:
     """
     Supprime une reservation existante
 
