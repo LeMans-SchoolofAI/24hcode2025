@@ -10,3 +10,55 @@ services:
       - "8000:8000"
     env_file:
       - .env
+
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:1.89.1
+    restart: always
+    ports:
+      - 80:5678
+    env_file:
+      - .env
+    volumes:
+      - n8n:/home/node/.n8n
+      - ./doc_izly:/doc_izly
+    depends_on:
+      # - mariadb
+      postgres :
+        condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+      # Don't forget to change ollama host to 0.0.0.0 instead of 127.0.0.1 (for me in the systemd service)
+
+  postgres:
+    # image: postgres
+    image: pgvector/pgvector
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -h localhost -U ${POSTGRES_USER} -d ${POSTGRES_DB}']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+
+  ollama:
+    image: ollama/ollama:latest
+    restart: always
+    ports:
+      - 11434:11434
+    volumes:
+      - ollama_data:/root/.ollama
+
+
+volumes:
+  n8n:
+  postgres:
+  ollama_data:
+
+networks:
+  default:
+    driver: bridge
+  
