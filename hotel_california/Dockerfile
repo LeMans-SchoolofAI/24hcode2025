@@ -10,8 +10,8 @@ RUN touch /etc/apt/apt.conf
 RUN echo 'Acquire::http::proxy "http://proxyweb.sorbonne-universite.fr:3128";' >> /etc/apt/apt.conf
 RUN echo 'Acquire::https::proxy "http://proxyweb.sorbonne-universite.fr:3128";' >> /etc/apt/apt.conf
 RUN echo 'Acquire::ftp::proxy "http://proxyweb.sorbonne-universite.fr:3128";'  >> /etc/apt/apt.conf
-ENV http_proxy "http://proxyweb.sorbonne-universite.fr:3128"
-ENV https_proxy "http://proxyweb.sorbonne-universite.fr:3128"
+ENV http_proxy="http://proxyweb.sorbonne-universite.fr:3128"
+ENV https_proxy="http://proxyweb.sorbonne-universite.fr:3128"
 
 # Copier les fichiers requirements.txt et installer les dépendances
 COPY requirements.txt .
