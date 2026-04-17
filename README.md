@@ -41,8 +41,8 @@ Dans le répertoire [./24hcode_public](./24hcode_public/README.md), vous trouver
 
 | Résultat | Note | Equipe | Lien vers le code | Lien vers la demo |
 | - | - | - | - | - |
-| 1er | 100 points | DogWifHat | à compléter | à compléter |
-| 2e | 95 points | SCMA | à compléter | à compléter |
+| 1er | 100 points | DogWifHat | [Code](https://github.com/24h-du-code-2025) | [Vidéo](https://www.youtube.com/watch?v=9wGZzOV42CM) |
+| 2e | 95 points | SCMA | [Code](https://github.com/bastiancorbin/24h-du-code-2025) | [Vidéo](https://www.youtube.com/watch?v=5P4WGlODEVg) |
 | 3e | 58 points | StackOverFlowers | à compléter | [Video](./demos_participants/Demo_StackOverFlowers.mp4) |
 | 4e | 48 points | 42 | à compléter | à compléter |
 | 5e | 43 points | LifeNum | à compléter | à compléter |
