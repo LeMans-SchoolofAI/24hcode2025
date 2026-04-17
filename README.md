@@ -32,7 +32,7 @@ Dans le répertoire [./24hcode_public](./24hcode_public/README.md), vous trouver
 | 4e | 56 points | Et pourquoi pas | [Front](https://github.com/LumenLumen/24h_Front), [Back](https://github.com/DamiBoul/24h_AgentHotel) | [Video](./demos_participants/Demo_et_pourquoi_pas.webm) |
 | 5e | 55 points | Raph2 | à compléter | à compléter |
 | 6e | 43 points | T2 Gatitos | à compléter | à compléter |
-| 7e | 38 points | Les Rhododendrons | à compléter | à compléter |
+| 7e | 38 points | Les Rhododendrons | [Code](https://github.com/noam120606/llm-hotel-24h) | à compléter |
 | 8e | 32 points | Basic Variable | à compléter | à compléter |
 | Non classé | - | Stackoverharissa | [Code](https://github.com/hedibousbih/24HDuCODE) | à compléter |
 | Non classé | - | Cybi3r3 | à compléter | à compléter |
